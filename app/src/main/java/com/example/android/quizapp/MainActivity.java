@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public void setEasyQuizParams(View view) {
         setUserInfo();
         setContentView(R.layout.activity_main);
+        TextView xTest = findViewById(R.id.test);
     }
 
     public void setMediumQuizParams(View view) {
