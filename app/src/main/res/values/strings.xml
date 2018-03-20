@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Think You Know?\nBiology Edition</string>
+    <string name="user_name">Your Name</string>
+    <string name="user_email">Your Email</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
 </resources>

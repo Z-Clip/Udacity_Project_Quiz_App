@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryTransparent">#99009688</color>
     <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorPrimaryDarkTransparent">#9900796B</color>
     <color name="colorAccent">#4CAF50</color>
-    <color name="colorAccentTransparent">#994CAF50</color>
     <color name="lightPrimary">#B2DFDB</color>
     <color name="iconText">#FFFFFF</color>
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#757575</color>
     <color name="divider">#BDBDBD</color>
+
+    <color name="colorPrimaryTransparent">#CC009688</color>
+    <color name="colorPrimaryDarkTransparent">#CC00796B</color>
+    <color name="colorAccentTransparent">#CC4CAF50</color>
+    <color name="darkDarkTransparent">#CC212121</color>
+    <color name="whiteTransparent">#CCFFFFFF</color>
+
 </resources>
