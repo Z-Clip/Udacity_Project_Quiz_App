@@ -5,4 +5,22 @@
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
+
+    <string name="Q_Easy_1">Question 1</string>
+    <string name="Q_Easy_2">Question 2</string>
+    <string name="Q_Easy_3">Question 3</string>
+    <string name="Q_Easy_4">Question 4</string>
+    <string name="Q_Easy_5">Question 5</string>
+
+    <string name="Q_Medium_1">Question 1</string>
+    <string name="Q_Medium_2">Question 2</string>
+    <string name="Q_Medium_3">Question 3</string>
+    <string name="Q_Medium_4">Question 4</string>
+    <string name="Q_Medium_5">Question 5</string>
+
+    <string name="Q_Hard_1">Question 1</string>
+    <string name="Q_Hard_2">Question 2</string>
+    <string name="Q_Hard_3">Question 3</string>
+    <string name="Q_Hard_4">Question 4</string>
+    <string name="Q_Hard_5">Question 5</string>
 </resources>

@@ -13,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
     //Initialize global variables
     Editable userName;
     Editable userEmail;
+    String difficulty;
     Boolean inputsReceived = false;
-
     int question = 1;
     String[][] questionAry;
 
@@ -46,22 +46,19 @@ public class MainActivity extends AppCompatActivity {
     * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
+        TextView questionHeader = findViewById(R.id.header_text_view);
+        TextView questionText = findViewById(R.id.question_text);
 
+        questionHeader.setText(String.valueOf("Question " + question));
+        questionText.setText(String.valueOf(questionAry[question][0]));
     }
 
-    /* This method is executed when a user clicks the easy button on the initial layout.
-     * It first checks to make sure the user has inputted something in both the name and
-     * email fields. If not, it fires a toast message and the method breaks.
-     * If the name and email have been supplied, the layout is updated to activity_main,
-     * the question array (questionAry) is populated with easy questions, and the views in
-     * activity_main are populated accordingly.
-     */
-    public void setEasyQuizParams(View view) {
-        setUserInfo();
-        if (!inputsReceived) {
-            return;
-        }
-        setContentView(R.layout.activity_main);
+    public void nextQuestion (View view) {
+        question = question + 1;
+    }
+
+    public void buildQuestionArray(String difficulty) {
+        getResources().getString(R.string.app_name);
         questionAry = new String[][] {
                 {""},
                 {"Easy Question 1","Type","Easy Question 1 Options","Easy Question 1 Answer","Image"},
@@ -70,22 +67,28 @@ public class MainActivity extends AppCompatActivity {
                 {"Easy Question 4","Type","Easy Question 4 Options","Easy Question 4 Answer","Image"},
                 {"Easy Question 5","Type","Easy Question 5 Options","Easy Question 5 Answer","Image"}
         };
+    }
+
+
+    public void setEasyQuizParams(View view) {
+        setUserInfo();
+        if (!inputsReceived) {
+            return;
+        }
+        setContentView(R.layout.activity_main);
+        difficulty="Easy";
+        buildQuestionArray(difficulty);
+        setQuestionDisplay();
 
     }
 
-    /* This method is executed when a user clicks the medium button on the initial layout.
-     * It first checks to make sure the user has inputted something in both the name and
-     * email fields. If not, it fires a toast message and the method breaks.
-     * If the name and email have been supplied, the layout is updated to activity_main,
-     * the question array (questionAry) is populated with medium questions, and the views in
-     * activity_main are populated accordingly.
-     */
     public void setMediumQuizParams(View view) {
         setUserInfo();
         if (!inputsReceived) {
             return;
         }
         setContentView(R.layout.activity_main);
+        difficulty="Medium";
         questionAry = new String[][] {
                 {""},
                 {"Medium Question 1","Type","Medium Question 1 Options","Medium Question 1 Answer","Image"},
@@ -96,19 +99,13 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    /* This method is executed when a user clicks the hard button on the initial layout.
-     * It first checks to make sure the user has inputted something in both the name and
-     * email fields. If not, it fires a toast message and the method breaks.
-     * If the name and email have been supplied, the layout is updated to activity_main,
-     * the question array (questionAry) is populated with hard questions, and the views in
-     * activity_main are populated accordingly.
-     */
     public void setHardQuizParams(View view) {
         setUserInfo();
         if (!inputsReceived) {
             return;
         }
         setContentView(R.layout.activity_main);
+        difficulty="Hard";
         questionAry = new String[][] {
                 {""},
                 {"Hard Question 1","Type","Hard Question 1 Options","Hard Question 1 Answer","Image"},

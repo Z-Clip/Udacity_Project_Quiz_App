@@ -1,20 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.quizapp.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/lightPrimary">
 
     <TextView
+        android:id="@+id/header_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:background="@drawable/dark_primary_gradient"
+        android:text="Question 1"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="@color/iconText"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/question_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/dark_primary_gradient"
+        android:text="X"
+        android:textSize="24sp"
+        android:textColor="@color/iconText"
+        android:gravity="center_horizontal"/>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="Next Question"
+        android:textSize="24sp"
+        android:textColor="@color/primaryText"
+        android:onClick="nextQuestion"/>
 
-</LinearLayout>
+</RelativeLayout>
