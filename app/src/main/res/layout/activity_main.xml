@@ -21,20 +21,159 @@
         android:textColor="@color/iconText"
         android:gravity="center_horizontal"/>
 
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="8dp"
+        android:layout_below="@id/header_text_view"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/question_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:padding="4dp"
+        android:layout_below="@id/image"
         android:layout_centerInParent="true"
         android:background="@drawable/dark_primary_gradient"
-        android:text="X"
-        android:textSize="24sp"
+        android:text="Question Text"
+        android:textSize="20sp"
         android:textColor="@color/iconText"
         android:gravity="center_horizontal"/>
 
+    <LinearLayout
+        android:id="@+id/answer_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/question_text"
+        android:layout_above="@id/next_button">
+
+        <LinearLayout
+            android:id="@+id/checkboxes"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="8dp">
+
+            <CheckBox
+                android:id="@+id/checkbox_option_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:background="@drawable/dark_primary_gradient"
+                android:text="A"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <CheckBox
+                android:id="@+id/checkbox_option_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:background="@drawable/dark_primary_gradient"
+                android:text="B"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <CheckBox
+                android:id="@+id/checkbox_option_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:background="@drawable/dark_primary_gradient"
+                android:text="C"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <CheckBox
+                android:id="@+id/checkbox_option_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="4dp"
+                android:background="@drawable/dark_primary_gradient"
+                android:text="D"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:background="@drawable/dark_primary_gradient">
+
+            <RadioButton
+                android:id="@+id/radio_option_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="A"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <RadioButton
+                android:id="@+id/radio_option_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="B"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <RadioButton
+                android:id="@+id/radio_option_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="C"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+            <RadioButton
+                android:id="@+id/radio_option_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="D"
+                android:textSize="18sp"
+                android:textColor="@color/iconText"
+                android:gravity="center_vertical"/>
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/free_text_answer"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:inputType="text"
+            android:textSize="18sp"
+            android:background="@color/whiteTransparent"/>
+
+    </LinearLayout>
+
     <Button
+        android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"

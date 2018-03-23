@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="question">
+        <item>Question 1</item>
+        <item>Question 2</item>
+        <item>Question 3</item>
+        <item>Question 4</item>
+        <item>Question 5</item>
+    </string-array>
+    <string-array name="type">
+        <item>single choice</item>
+        <item>multiple choice</item>
+        <item>free text</item>
+        <item>single choice</item>
+        <item>single choice</item>
+    </string-array>
+    <string-array name="options">
+        <item>Option 1^Option 2^0ption 3^Option 4</item>
+        <item>Option 1^Option 2^Option 3^Option 4</item>
+        <item>NA</item>
+        <item>Option 1^Option 2^Option 3^Option 4</item>
+        <item>Option 1^Option 2^Option 3^Option 4</item>
+    </string-array>
+    <string-array name="answer">
+        <item>Answer 1</item>
+        <item>Answer 2</item>
+        <item>Answer 3</item>
+        <item>Answer 4</item>
+        <item>Answer 5</item>
+    </string-array>
+</resources>
