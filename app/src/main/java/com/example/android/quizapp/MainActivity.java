@@ -16,7 +16,11 @@ public class MainActivity extends AppCompatActivity {
     String difficulty;
     Boolean inputsReceived = false;
     int question = 1;
-    String[][] questionAry;
+    String[] questionAry;
+    String[] typeAry;
+    String[][] optionAry;
+    String[][] answerAry;
+    String[][] userAnswers;
 
     //On create method. Loads the initial layout.
     @Override
@@ -61,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        //Build easy question, type, option, and answer arrays.
         difficulty="easy";
+        questionAry = getResources().getStringArray(R.array.easy_questions);
+        typeAry = getResources().getStringArray(R.array.easy_types);
+        optionAry = getResources().getStringArray(R.array.easy_options);
+        answerAry = getResources().getStringArray(R.array.easy_answers);
+
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
     }
