@@ -47,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void setQuestionDisplay() {
         TextView questionHeader = findViewById(R.id.header_text_view);
-        TextView questionText = findViewById(R.id.question_text);
-
         questionHeader.setText(String.valueOf("Question " + question));
-        questionText.setText(String.valueOf(questionAry[question][0]));
     }
 
     public void nextQuestion (View view) {
@@ -59,25 +56,37 @@ public class MainActivity extends AppCompatActivity {
 
     public void setEasyQuizParams(View view) {
         setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
         }
+
+        difficulty="easy";
+        //Change the layout to activity_main
         setContentView(R.layout.activity_main);
     }
 
     public void setMediumQuizParams(View view) {
         setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
         }
+
+        difficulty="medium";
+        //Change the layout to activity_main
         setContentView(R.layout.activity_main);
     }
 
     public void setHardQuizParams(View view) {
         setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
         }
+
+        difficulty="hard";
+        //Change the layout to activity_main
         setContentView(R.layout.activity_main);
     }
 

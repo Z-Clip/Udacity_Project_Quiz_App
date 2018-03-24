@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="question">
-        <item>Question 1</item>
-        <item>Question 2</item>
-        <item>Question 3</item>
-        <item>Question 4</item>
-        <item>Question 5</item>
+        <item>Examine the picture above. What animal do those spots belong to?</item>
+        <item>Why do dogs pant?</item>
+        <item>What is the name of the green pigment found in most plants that contributes to photosynthesis?</item>
+        <item>Which of the following are part of the integumentary system?</item>
+        <item>Which of the following types of cells in the human retina allow you to see color?</item>
     </string-array>
     <string-array name="type">
         <item>single choice</item>
-        <item>multiple choice</item>
-        <item>free text</item>
         <item>single choice</item>
+        <item>free text</item>
+        <item>multiple choice</item>
         <item>single choice</item>
     </string-array>
     <string-array name="options">
-        <item>Option 1^Option 2^0ption 3^Option 4</item>
-        <item>Option 1^Option 2^Option 3^Option 4</item>
+        <item>Lion^Horse^Dog^Giraffe</item>
+        <item>To taste the air^To cool off^To be funny^Because they are tired</item>
         <item>NA</item>
-        <item>Option 1^Option 2^Option 3^Option 4</item>
-        <item>Option 1^Option 2^Option 3^Option 4</item>
+        <item>Hair^Skin^Fingernails^Feathers</item>
+        <item>Cones^Rods^Muller Cells^Lenses</item>
     </string-array>
     <string-array name="answer">
-        <item>Answer 1</item>
-        <item>Answer 2</item>
-        <item>Answer 3</item>
-        <item>Answer 4</item>
-        <item>Answer 5</item>
+        <item>Giraffe</item>
+        <item>To cool off</item>
+        <item>CHLOROPHYLL</item>
+        <item>Hair^Skin^Fingernails^Feathers</item>
+        <item>Cones</item>
     </string-array>
 </resources>
