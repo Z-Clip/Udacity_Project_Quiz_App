@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -16,17 +17,25 @@ import java.lang.reflect.Array;
 
 public class MainActivity extends AppCompatActivity {
 
-    //Initialize global variables
+    //Global variables
     Editable userName;
     Editable userEmail;
     String difficulty;
     Boolean inputsReceived = false;
     int question = 1;
+    //Global Arrays
     String[] questionAry;
     String[] typeAry;
     String[] optionAry;
     String[] answerAry;
     String[] userAnswers;
+    //Globally defined objects
+    EditText freeTextView;
+    TextView questionHeader;
+    TextView questionText;
+    RadioGroup singleChoiceView;
+    LinearLayout multipleChoiceView;
+    ImageView picture;
 
     //On create method. Loads the initial layout.
     @Override
@@ -56,19 +65,20 @@ public class MainActivity extends AppCompatActivity {
     * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
-        TextView questionHeader = findViewById(R.id.header_text_view);
         questionHeader.setText(String.valueOf("Question " + question));
-
-        TextView questionText = findViewById(R.id.question_text);
         questionText.setText(String.valueOf(questionAry[question]));
+
+        int imageID = getResources().getIdentifier(difficulty+"_"+question ,"drawable",getPackageName());
+        if (imageID >= 0) {
+            picture.setVisibility(View.VISIBLE);
+            picture.setImageResource(imageID);
+        }
 
         String questionType = typeAry[question];
         if (questionType.equals("free text")) {
-            EditText freeTextView = findViewById(R.id.free_text_answer);
             freeTextView.setVisibility(View.VISIBLE);  //Make visible
 
         } else if (questionType.equals("single choice")) {
-            RadioGroup singleChoiceView = findViewById(R.id.radio_buttons);
             singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
             //Set the text for the radio buttons
             String[] radioButtonArray = optionAry[question].split(":");
@@ -80,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (questionType.equals("multiple choice")) {
-            LinearLayout multipleChoiceView = findViewById(R.id.checkboxes);
             multipleChoiceView.setVisibility(View.VISIBLE);
             //Set the text for the checkboxes
             String[] checkBoxArray = optionAry[question].split(":");
@@ -98,15 +107,13 @@ public class MainActivity extends AppCompatActivity {
      * question variable increments, and it clears out the option views.
      */
     public void goneOptionViews () {
+        picture.setVisibility(View.GONE);
         String questionType = typeAry[question];
         if (questionType.equals("free text")) {
-            EditText freeTextView = findViewById(R.id.free_text_answer);
             freeTextView.setVisibility(View.GONE);  //Make visible
         } else if (questionType.equals("single choice")) {
-            RadioGroup singleChoiceView = findViewById(R.id.radio_buttons);
             singleChoiceView.setVisibility(View.GONE);  //Make visible
         } else if (questionType.equals("multiple choice")) {
-            LinearLayout multipleChoiceView = findViewById(R.id.checkboxes);
             multipleChoiceView.setVisibility(View.GONE);
         }
     }
@@ -120,24 +127,36 @@ public class MainActivity extends AppCompatActivity {
         setQuestionDisplay();
     }
 
+    public void populateArrays() {
+        //Grab the needed string arrays from the arrays resource
+        questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_questions", "array", getPackageName()));
+        typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
+        optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
+        answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
+    }
+
+    public void defineObjects() {
+        freeTextView = findViewById(R.id.free_text_answer);
+        questionHeader = findViewById(R.id.header_text_view);
+        questionText = findViewById(R.id.question_text);
+        singleChoiceView = findViewById(R.id.radio_buttons);
+        multipleChoiceView = findViewById(R.id.checkboxes);
+        picture = findViewById(R.id.image);
+    }
+
     public void setEasyQuizParams(View view) {
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
         }
-
-        //Build easy question, type, option, and answer arrays.
         difficulty="easy";
-
-        //Grab the needed string arrays from the arrays resource
-        questionAry = getResources().getStringArray(R.array.easy_questions);
-        typeAry = getResources().getStringArray(R.array.easy_types);
-        optionAry = getResources().getStringArray(R.array.easy_options);
-        answerAry = getResources().getStringArray(R.array.easy_answers);
-
+        //Build easy question, type, option, and answer arrays.
+        populateArrays();
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
+        //Define global objects
+        defineObjects();
         setQuestionDisplay();
     }
 
@@ -147,10 +166,14 @@ public class MainActivity extends AppCompatActivity {
         if (!inputsReceived) {
             return;
         }
-
         difficulty="medium";
+        //Build easy question, type, option, and answer arrays.
+        populateArrays();
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
+        //Define global objects
+        defineObjects();
+        setQuestionDisplay();
     }
 
     public void setHardQuizParams(View view) {
@@ -159,10 +182,14 @@ public class MainActivity extends AppCompatActivity {
         if (!inputsReceived) {
             return;
         }
-
         difficulty="hard";
+        //Build easy question, type, option, and answer arrays.
+        populateArrays();
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
+        //Define global objects
+        defineObjects();
+        setQuestionDisplay();
     }
 
 }
