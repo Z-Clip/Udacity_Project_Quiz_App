@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,9 +57,60 @@ public class MainActivity extends AppCompatActivity {
     public void setQuestionDisplay() {
         TextView questionHeader = findViewById(R.id.header_text_view);
         questionHeader.setText(String.valueOf("Question " + question));
+
+        TextView questionText = findViewById(R.id.question_text);
+        questionText.setText(String.valueOf(questionAry[question]));
+
+        String questionType = typeAry[question];
+        if (questionType.equals("free text")) {
+            EditText freeTextView = findViewById(R.id.free_text_answer);
+            freeTextView.setVisibility(View.VISIBLE);  //Make visible
+
+        } else if (questionType.equals("single choice")) {
+            RadioGroup singleChoiceView = findViewById(R.id.radio_buttons);
+            singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
+            //Set the text for the radio buttons
+            for (int i = 1 ; i < optionAry[question].length ; i++) {
+                int viewID = getResources().getIdentifier("radio_option_"+i , "id", getPackageName());
+                RadioButton buttonText = findViewById(viewID);
+                buttonText.setText(optionAry[question][i]);
+            }
+
+        } else if (questionType.equals("multiple choice")) {
+            LinearLayout multipleChoiceView = findViewById(R.id.checkboxes);
+            multipleChoiceView.setVisibility(View.VISIBLE);
+            //Set the text for the radio buttons
+            for (int i = 1; i < optionAry[question].length; i++) {
+                int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
+                RadioButton buttonText = findViewById(viewID);
+                buttonText.setText(optionAry[question][i]);
+            }
+        }
     }
 
+    /* In order for setQuestionDisplay to work correctly, it assumes that all of the option views
+     * already have their visibility set to GONE. This is designed to be executed just before the
+     * question variable increments, and it clears out the option views.
+     */
+    public void goneOptionViews () {
+        String questionType = typeAry[question];
+        if (questionType.equals("free text")) {
+            EditText freeTextView = findViewById(R.id.free_text_answer);
+            freeTextView.setVisibility(View.GONE);  //Make visible
+        } else if (questionType.equals("single choice")) {
+            RadioGroup singleChoiceView = findViewById(R.id.radio_buttons);
+            singleChoiceView.setVisibility(View.GONE);  //Make visible
+        } else if (questionType.equals("multiple choice")) {
+            LinearLayout multipleChoiceView = findViewById(R.id.checkboxes);
+            multipleChoiceView.setVisibility(View.GONE);
+        }
+    }
+
+    /*Called when the user selects the "next question" button. "GONE-s" the option view and increments
+    * the question variable.
+    */
     public void nextQuestion (View view) {
+        goneOptionViews();
         question = question + 1;
     }
 
@@ -100,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
+        setQuestionDisplay();
     }
 
     public void setMediumQuizParams(View view) {
