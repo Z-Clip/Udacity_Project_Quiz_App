@@ -18,18 +18,18 @@
     </string-array>
     <string-array name="easy_options">
         <item>5</item>
-        <item>Lion@Horse@Dog@Giraffe</item>
-        <item>To taste the air@To cool off@To be funny@Because they are tired</item>
+        <item>:Lion:Horse:Dog:Giraffe</item>
+        <item>:To taste the air:To cool off:To be funny:Because they are tired</item>
         <item>NA</item>
-        <item>Hair@Skin@Fingernails@Feathers</item>
-        <item>Cones@Rods@Muller Cells@Lenses</item>
+        <item>:Hair:Skin:Fingernails:Feathers</item>
+        <item>:Cones:Rods:Muller Cells:Lenses</item>
     </string-array>
     <string-array name="easy_answers">
         <item>5</item>
         <item>Giraffe</item>
         <item>To cool off</item>
         <item>CHLOROPHYLL</item>
-        <item>Hair@Skin@Fingernails@Feathers</item>
+        <item>:Hair:Skin:Fingernails:Feathers</item>
         <item>Cones</item>
     </string-array>
 </resources>
