@@ -137,24 +137,35 @@ public class MainActivity extends AppCompatActivity {
          */
         String[] singleDimensionalOptionArray = getResources().getStringArray(R.array.easy_options);
         for (int i = 0 ; i <= singleDimensionalOptionArray.length ; i++) {
-            String[] tempAry = singleDimensionalOptionArray[i].split("@");
+            String currentString = singleDimensionalOptionArray[i];
             optionAry[i][0] = null;  //I want the key to line up with the question #, so skip 0
-            for (int line = 1 ; line < tempAry.length ; line++) {
-                optionAry[i][line] = tempAry[line];
+            if (currentString.contains("@")) {
+                String[] tempAry = currentString.split("@");
+                for (int line = 1; line < tempAry.length; line++) {
+                    optionAry[i][line] = tempAry[line - 1];
+                }
+            } else {
+                optionAry[i][1] = currentString;
             }
         }
 
         String[] singleDimensionalAnswerArray = getResources().getStringArray(R.array.easy_answers);
         for (int i = 0 ; i <= singleDimensionalAnswerArray.length ; i++) {
-            String[] tempAry = singleDimensionalAnswerArray[i].split("@");
-            for (int line = 0; line <= tempAry.length; line++) {
-                answerAry[i][line] = tempAry[line];
+            String currentString = singleDimensionalAnswerArray[i];
+            if (currentString.contains("@")) {
+                String[] tempAry = currentString.split("@");
+                for (int line = 0; line <= tempAry.length; line++) {
+                    answerAry[i][line] = tempAry[line];
+                }
+            } else {
+                answerAry[i][0] = currentString;
             }
         }
 
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
         setQuestionDisplay();
+
     }
 
     public void setMediumQuizParams(View view) {

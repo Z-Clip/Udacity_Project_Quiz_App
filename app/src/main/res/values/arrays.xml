@@ -18,7 +18,7 @@
     </string-array>
     <string-array name="easy_options">
         <item>5</item>
-        <item>Lion^Horse^Dog^Giraffe</item>
+        <item>Lion@Horse@Dog@Giraffe</item>
         <item>To taste the air@To cool off@To be funny@Because they are tired</item>
         <item>NA</item>
         <item>Hair@Skin@Fingernails@Feathers</item>
