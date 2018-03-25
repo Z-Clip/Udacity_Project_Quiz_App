@@ -32,4 +32,70 @@
         <item>:Hair:Skin:Fingernails:Feathers</item>
         <item>Cones</item>
     </string-array>
+
+    <string-array name="medium_questions">
+        <item>5</item>
+        <item>Medium Question 1</item>
+        <item>Medium Question 2</item>
+        <item>Medium Question 3</item>
+        <item>Medium Question 4</item>
+        <item>Medium Question 5</item>
+    </string-array>
+    <string-array name="medium_types">
+        <item>5</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+    </string-array>
+    <string-array name="medium_options">
+        <item>5</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+    </string-array>
+    <string-array name="medium_answers">
+        <item>5</item>
+        <item>Medium Answer 1</item>
+        <item>Medium Answer 2</item>
+        <item>Medium Answer 3</item>
+        <item>Medium Answer 4</item>
+        <item>Medium Answer 5</item>
+    </string-array>
+
+    <string-array name="hard_questions">
+        <item>5</item>
+        <item>Hard Question 1</item>
+        <item>Hard Question 2</item>
+        <item>Hard Question 3</item>
+        <item>Hard Question 4</item>
+        <item>Hard Question 5</item>
+    </string-array>
+    <string-array name="hard_types">
+        <item>5</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+        <item>free text</item>
+    </string-array>
+    <string-array name="hard_options">
+        <item>5</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+        <item>NA</item>
+    </string-array>
+    <string-array name="hard_answers">
+        <item>5</item>
+        <item>Hard Answer 1</item>
+        <item>Hard Answer 2</item>
+        <item>Hard Answer 3</item>
+        <item>Hard Answer 4</item>
+        <item>Hard Answer 5</item>
+    </string-array>
 </resources>
