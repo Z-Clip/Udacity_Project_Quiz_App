@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="easy_questions">
+        <int>5</int>
         <item>Examine the picture above. What animal do those spots belong to?</item>
         <item>Why do dogs pant?</item>
         <item>What is the name of the green pigment found in most plants that contributes to photosynthesis?</item>
@@ -8,6 +9,7 @@
         <item>Which of the following types of cells in the human retina allow you to see color?</item>
     </string-array>
     <string-array name="easy_types">
+        <int>5</int>
         <item>single choice</item>
         <item>single choice</item>
         <item>free text</item>
@@ -15,17 +17,19 @@
         <item>single choice</item>
     </string-array>
     <string-array name="easy_options">
+        <int>5</int>
         <item>Lion^Horse^Dog^Giraffe</item>
-        <item>To taste the air^To cool off^To be funny^Because they are tired</item>
+        <item>To taste the air@To cool off@To be funny@Because they are tired</item>
         <item>NA</item>
-        <item>Hair^Skin^Fingernails^Feathers</item>
-        <item>Cones^Rods^Muller Cells^Lenses</item>
+        <item>Hair@Skin@Fingernails@Feathers</item>
+        <item>Cones@Rods@Muller Cells@Lenses</item>
     </string-array>
     <string-array name="easy_answers">
+        <int>5</int>
         <item>Giraffe</item>
         <item>To cool off</item>
         <item>CHLOROPHYLL</item>
-        <item>Hair^Skin^Fingernails^Feathers</item>
+        <item>Hair@Skin@Fingernails@Feathers</item>
         <item>Cones</item>
     </string-array>
 </resources>

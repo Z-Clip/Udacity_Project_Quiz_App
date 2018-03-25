@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+
 public class MainActivity extends AppCompatActivity {
 
     //Initialize global variables
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     String[] typeAry;
     String[][] optionAry;
     String[][] answerAry;
-    String[][] userAnswers;
+    String[] userAnswers;
 
     //On create method. Loads the initial layout.
     @Override
@@ -67,10 +69,34 @@ public class MainActivity extends AppCompatActivity {
 
         //Build easy question, type, option, and answer arrays.
         difficulty="easy";
+
+        //The question array is a one-dimensional string array defined in the arrays resource
         questionAry = getResources().getStringArray(R.array.easy_questions);
+        //The type array is a one-dimensional string array defined in the arrays resource
         typeAry = getResources().getStringArray(R.array.easy_types);
-        optionAry = getResources().getStringArray(R.array.easy_options);
-        answerAry = getResources().getStringArray(R.array.easy_answers);
+
+        /*For both the optionAry and answerAry:
+        * The string array is initially defined as a one-dimensional array stored in the arrays resource,
+        * but it needs to be a two dimensional array. Loop over the values in the original array
+        * and create the secondary arrays. Strings forming the secondary arrays use '@' as the delimiter
+        * between elements.
+         */
+        String[] singleDimensionalOptionArray = getResources().getStringArray(R.array.easy_options);
+        for (int i = 0 ; i <= singleDimensionalOptionArray.length ; i++) {
+            String[] tempAry = singleDimensionalOptionArray[i].split("@");
+            optionAry[i][0] = null;  //I want the key to line up with the question #, so skip 0
+            for (int line = 1 ; line < tempAry.length ; line++) {
+                optionAry[i][line] = tempAry[line];
+            }
+        }
+
+        String[] singleDimensionalAnswerArray = getResources().getStringArray(R.array.easy_answers);
+        for (int i = 0 ; i <= singleDimensionalAnswerArray.length ; i++) {
+            String[] tempAry = singleDimensionalAnswerArray[i].split("@");
+            for (int line = 0; line <= tempAry.length; line++) {
+                answerAry[i][line] = tempAry[line];
+            }
+        }
 
         //Change the layout to activity_main
         setContentView(R.layout.activity_main);
