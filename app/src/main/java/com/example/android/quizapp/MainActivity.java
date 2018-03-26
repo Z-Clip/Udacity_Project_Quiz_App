@@ -118,14 +118,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*Called when the user selects the "next question" button. "GONE-s" the option view and increments
-    * the question variable.
+    /*Called when the user selects the "next question" button. "GONE-s" the visible views, increments
+    * the question variable, and re-sets the display.
     */
     public void nextQuestion (View view) {
         goneOptionViews();
         question = question + 1;
-        setQuestionDisplay();
+        if (question < questionAry.length) {
+            setQuestionDisplay();
+        } else {
+            calculateScore();
+        }
     }
+
+    public void calculateScore() {}
 
     public void populateArrays() {
         //Grab the needed string arrays from the arrays resource
@@ -151,13 +157,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         difficulty="easy";
-        //Build easy question, type, option, and answer arrays.
-        populateArrays();
-        //Change the layout to activity_main
-        setContentView(R.layout.activity_main);
-        //Define global objects
-        defineObjects();
-        setQuestionDisplay();
+        buildQuestionnaire();
     }
 
     public void setMediumQuizParams(View view) {
@@ -167,13 +167,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         difficulty="medium";
-        //Build easy question, type, option, and answer arrays.
-        populateArrays();
-        //Change the layout to activity_main
-        setContentView(R.layout.activity_main);
-        //Define global objects
-        defineObjects();
-        setQuestionDisplay();
+        buildQuestionnaire();
     }
 
     public void setHardQuizParams(View view) {
@@ -183,6 +177,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         difficulty="hard";
+        buildQuestionnaire();
+    }
+
+    public void buildQuestionnaire () {
         //Build easy question, type, option, and answer arrays.
         populateArrays();
         //Change the layout to activity_main

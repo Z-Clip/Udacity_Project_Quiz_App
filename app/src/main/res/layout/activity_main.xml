@@ -168,7 +168,9 @@
             android:layout_margin="8dp"
             android:inputType="text"
             android:textSize="18sp"
-            android:background="@color/whiteTransparent"/>
+            android:background="@color/whiteTransparent"
+            android:textAlignment="viewStart"
+            android:gravity="start"/>
 
     </LinearLayout>
 
