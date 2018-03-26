@@ -36,7 +36,7 @@
     <string-array name="medium_questions">
         <item>5</item>
         <item>Which of the following are considered primary producers?</item>
-        <item>Medium Question 2</item>
+        <item>Expression of trait Y is linked to having one or more copies of a dominant allele (Y). If two heterozygous individuals (Yy) have a child, what is the probably the child will NOT express trait Y?</item>
         <item>Medium Question 3</item>
         <item>Medium Question 4</item>
         <item>Medium Question 5</item>
@@ -60,7 +60,7 @@
     <string-array name="medium_answers">
         <item>5</item>
         <item>:Plants:Photosynthetic Bacteria</item>
-        <item>Medium Answer 2</item>
+        <item>:25%:25:25 percent</item>
         <item>Medium Answer 3</item>
         <item>Medium Answer 4</item>
         <item>Medium Answer 5</item>
