@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     String[] typeAry;
     String[] optionAry;
     String[] answerAry;
-    String[] userAnswers;
-    //Globally defined objects
+    String[] userInputAry;
+    String[] scoreAry;
+    //Globally defined object IDs
     EditText freeTextView;
     TextView questionHeader;
     TextView questionText;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.initial_layout);
     }
 
-    //Receives the user input for name and email into global vars and switches to the main layout.
+    //Receives the user input for name and email into global vars.
     private void setUserInfo () {
         EditText getUserName = findViewById(R.id.userName);
         userName = getUserName.getText();
@@ -60,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    * This method assesses the questionAry, finds the values that correspond with the current
+    /* This method assesses the questionAry, finds the values that correspond with the current
     * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
@@ -108,17 +108,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void goneOptionViews () {
         picture.setVisibility(View.GONE);
-        String questionType = typeAry[question];
-        if (questionType.equals("free text")) {
-            freeTextView.setVisibility(View.GONE);  //Make visible
-        } else if (questionType.equals("single choice")) {
-            singleChoiceView.setVisibility(View.GONE);  //Make visible
-        } else if (questionType.equals("multiple choice")) {
-            multipleChoiceView.setVisibility(View.GONE);
-        }
+        freeTextView.setVisibility(View.GONE);
+        singleChoiceView.setVisibility(View.GONE);
+        multipleChoiceView.setVisibility(View.GONE);
     }
 
-    /*Called when the user selects the "next question" button. "GONE-s" the visible views, increments
+    /*Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
     * the question variable, and re-sets the display.
     */
     public void nextQuestion (View view) {
@@ -133,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void calculateScore() {}
 
+    // This method sets global array variables based on the string arrays stored in the array resource
     public void populateArrays() {
         //Grab the needed string arrays from the arrays resource
         questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_questions", "array", getPackageName()));
@@ -141,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
         answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
     }
 
+    /* There are a number of objects related to views in activity_main that are referenced a number
+     * of times throughout the code. This method sets global variables for those object IDs so we
+     * don't have to call the findViewById method a bazillion times.
+     */
     public void defineObjects() {
         freeTextView = findViewById(R.id.free_text_answer);
         questionHeader = findViewById(R.id.header_text_view);
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         picture = findViewById(R.id.image);
     }
 
+    //Executed if the user clicks the easy button on the initial layout
     public void setEasyQuizParams(View view) {
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         buildQuestionnaire();
     }
 
+    //Executed if the user clicks the medium button on the initial layout
     public void setMediumQuizParams(View view) {
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         buildQuestionnaire();
     }
 
+    //Executed if the user clicks the hard button on the initial layout
     public void setHardQuizParams(View view) {
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
@@ -180,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
         buildQuestionnaire();
     }
 
+    /* This method executes all the methods necessary to transition from the initial layout to
+     * the activity_main layout. It builds variables for the arrays, changes the layout, defines
+     * global variables associated with the view objects, and sets the display.
+     */
     public void buildQuestionnaire () {
         //Build easy question, type, option, and answer arrays.
         populateArrays();

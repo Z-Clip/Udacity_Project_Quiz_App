@@ -5,7 +5,7 @@
         <item>Examine the picture above. What animal do those spots belong to?</item>
         <item>Why do dogs pant?</item>
         <item>What is the name of the green pigment found in most plants that contributes to photosynthesis?</item>
-        <item>Which of the following are part of the integumentary system?</item>
+        <item>Which of the following animals are important for pollination?</item>
         <item>Which of the following types of cells in the human retina allow you to see color?</item>
     </string-array>
     <string-array name="easy_types">
@@ -21,7 +21,7 @@
         <item>:Lion:Horse:Dog:Giraffe</item>
         <item>:To taste the air:To cool off:To be funny:Because they are tired</item>
         <item>NA</item>
-        <item>:Hair:Skin:Fingernails:Feathers</item>
+        <item>:Bees:Flies:Bats:Hummingbirds</item>
         <item>:Cones:Rods:Muller Cells:Lenses</item>
     </string-array>
     <string-array name="easy_answers">
@@ -29,42 +29,44 @@
         <item>Giraffe</item>
         <item>To cool off</item>
         <item>:CHLOROPHYLL</item>
-        <item>:Hair:Skin:Fingernails:Feathers</item>
+        <item>:Bees:Flies:Bats:Hummingbirds</item>
         <item>Cones</item>
     </string-array>
+
 
     <string-array name="medium_questions">
         <item>5</item>
         <item>Which of the following are considered primary producers?</item>
         <item>Expression of trait Y is linked to having one or more copies of a dominant allele (Y). If two heterozygous individuals (Yy) have a child, what is the probably the child will NOT express trait Y?</item>
-        <item>Medium Question 3</item>
-        <item>Medium Question 4</item>
-        <item>Medium Question 5</item>
+        <item>Which of the following are part of the integumentary system?</item>
+        <item>Which of the following statements about viruses is incorrect?</item>
+        <item>Which of the following statements is correct?</item>
     </string-array>
     <string-array name="medium_types">
         <item>5</item>
         <item>multiple choice</item>
         <item>free text</item>
-        <item>free text</item>
-        <item>free text</item>
-        <item>free text</item>
+        <item>multiple choice</item>
+        <item>single choice</item>
+        <item>single choice</item>
     </string-array>
     <string-array name="medium_options">
         <item>5</item>
         <item>:Plants:Animals:Fungi:Photosynthetic Bacteria</item>
         <item>NA</item>
-        <item>NA</item>
-        <item>NA</item>
-        <item>NA</item>
+        <item>:Hair:Skin:Fingernails:Feathers</item>
+        <item>:Viral genomes can be RNA, DNA, or ssRNA:Virons are larger than bacteria:Viruses possess many, but not all, of the qualifications needed to be considered alive:Viruses evolve rapidly</item>
+        <item>:Platypuses are venomous:Canines are completely color blind:Fish do not need oxygen to survive:All biological energy is ultimately derived from the sun via photosynthesis</item>
     </string-array>
     <string-array name="medium_answers">
         <item>5</item>
         <item>:Plants:Photosynthetic Bacteria</item>
         <item>:25%:25:25 percent</item>
-        <item>Medium Answer 3</item>
-        <item>Medium Answer 4</item>
-        <item>Medium Answer 5</item>
+        <item>:Hair:Skin:Fingernails:Feathers</item>
+        <item>:Virons are larger than bacteria</item>
+        <item>:Platypuses are venomous</item>
     </string-array>
+
 
     <string-array name="hard_questions">
         <item>5</item>
