@@ -62,6 +62,89 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Executed if the user clicks the easy button on the initial layout
+    public void setEasyQuizParams(View view) {
+        setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
+        if (!inputsReceived) {
+            return;
+        }
+        difficulty="easy";
+        buildQuestionnaire();
+    }
+
+    //Executed if the user clicks the medium button on the initial layout
+    public void setMediumQuizParams(View view) {
+        setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
+        if (!inputsReceived) {
+            return;
+        }
+        difficulty="medium";
+        buildQuestionnaire();
+    }
+
+    //Executed if the user clicks the hard button on the initial layout
+    public void setHardQuizParams(View view) {
+        setUserInfo();
+        //Prevent the layout from changing if inputsReceived does not evaluate to true
+        if (!inputsReceived) {
+            return;
+        }
+        difficulty="hard";
+        buildQuestionnaire();
+    }
+
+    /* This method executes all the methods necessary to transition from the initial layout to
+     * the activity_main layout. It builds variables for the arrays, changes the layout, defines
+     * global variables associated with the view objects, and sets the display.
+     */
+    public void buildQuestionnaire () {
+        //Build easy question, type, option, and answer arrays.
+        populateArrays();
+        //Change the layout to activity_main
+        setContentView(R.layout.activity_main);
+        //Define global objects
+        defineObjects();
+        setQuestionDisplay();
+    }
+
+    // This method sets global array variables based on the string arrays stored in the array resource
+    public void populateArrays() {
+        //Grab the needed string arrays from the arrays resource
+        questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_questions", "array", getPackageName()));
+        typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
+        optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
+        answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
+    }
+
+    /* There are a number of objects related to views in activity_main that are referenced a number
+     * of times throughout the code. This method sets global variables for those object IDs so we
+     * don't have to call the findViewById method a bazillion times.
+     */
+    public void defineObjects() {
+        freeTextView = findViewById(R.id.free_text_answer);
+        questionHeader = findViewById(R.id.header_text_view);
+        questionText = findViewById(R.id.question_text);
+        singleChoiceView = findViewById(R.id.radio_buttons);
+        multipleChoiceView = findViewById(R.id.checkboxes);
+        picture = findViewById(R.id.image);
+    }
+
+    /*Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
+     * the question variable, and re-sets the display.
+     */
+    public void nextQuestion (View view) {
+        checkAnswers();
+        goneOptionViews();
+        question = question + 1;
+        if (question < questionAry.length) {
+            setQuestionDisplay();
+        } else {
+            calculateScore();
+        }
+    }
+
     /* This method assesses the questionAry, finds the values that correspond with the current
     * question, and updates the views in the activity_main layout accordingly.
      */
@@ -172,89 +255,6 @@ public class MainActivity extends AppCompatActivity {
         multipleChoiceView.setVisibility(View.GONE);
     }
 
-    /*Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
-    * the question variable, and re-sets the display.
-    */
-    public void nextQuestion (View view) {
-        checkAnswers();
-        goneOptionViews();
-        question = question + 1;
-        if (question < questionAry.length) {
-            setQuestionDisplay();
-        } else {
-            calculateScore();
-        }
-    }
-
     public void calculateScore() {}
-
-    // This method sets global array variables based on the string arrays stored in the array resource
-    public void populateArrays() {
-        //Grab the needed string arrays from the arrays resource
-        questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_questions", "array", getPackageName()));
-        typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
-        optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
-        answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
-    }
-
-    /* There are a number of objects related to views in activity_main that are referenced a number
-     * of times throughout the code. This method sets global variables for those object IDs so we
-     * don't have to call the findViewById method a bazillion times.
-     */
-    public void defineObjects() {
-        freeTextView = findViewById(R.id.free_text_answer);
-        questionHeader = findViewById(R.id.header_text_view);
-        questionText = findViewById(R.id.question_text);
-        singleChoiceView = findViewById(R.id.radio_buttons);
-        multipleChoiceView = findViewById(R.id.checkboxes);
-        picture = findViewById(R.id.image);
-    }
-
-    //Executed if the user clicks the easy button on the initial layout
-    public void setEasyQuizParams(View view) {
-        setUserInfo();
-        //Prevent the layout from changing if inputsReceived does not evaluate to true
-        if (!inputsReceived) {
-            return;
-        }
-        difficulty="easy";
-        buildQuestionnaire();
-    }
-
-    //Executed if the user clicks the medium button on the initial layout
-    public void setMediumQuizParams(View view) {
-        setUserInfo();
-        //Prevent the layout from changing if inputsReceived does not evaluate to true
-        if (!inputsReceived) {
-            return;
-        }
-        difficulty="medium";
-        buildQuestionnaire();
-    }
-
-    //Executed if the user clicks the hard button on the initial layout
-    public void setHardQuizParams(View view) {
-        setUserInfo();
-        //Prevent the layout from changing if inputsReceived does not evaluate to true
-        if (!inputsReceived) {
-            return;
-        }
-        difficulty="hard";
-        buildQuestionnaire();
-    }
-
-    /* This method executes all the methods necessary to transition from the initial layout to
-     * the activity_main layout. It builds variables for the arrays, changes the layout, defines
-     * global variables associated with the view objects, and sets the display.
-     */
-    public void buildQuestionnaire () {
-        //Build easy question, type, option, and answer arrays.
-        populateArrays();
-        //Change the layout to activity_main
-        setContentView(R.layout.activity_main);
-        //Define global objects
-        defineObjects();
-        setQuestionDisplay();
-    }
 
 }
