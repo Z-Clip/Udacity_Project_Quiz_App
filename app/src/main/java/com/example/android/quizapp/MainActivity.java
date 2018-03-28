@@ -23,13 +23,14 @@ public class MainActivity extends AppCompatActivity {
     String difficulty;
     Boolean inputsReceived = false;
     int question = 1;
+    int possibleScore = 5;
     //Global Arrays
     String[] questionAry;
     String[] typeAry;
     String[] optionAry;
     String[] answerAry;
     String[] userInputAry = new String [6];
-    Double[] scoreAry = new Double[6];
+    int[] scoreAry = new int[6];
     //Globally defined object IDs
     EditText freeTextView;
     TextView questionHeader;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             String[] correctAnswerAry = answerAry[question].split(":");
             for (int i = 0 ; i < correctAnswerAry.length ; i++) {
                 if (text.contains(correctAnswerAry[i])) {
-                    scoreAry[question] = 1.0;
+                    scoreAry[question] = 1;
                 }
             }
             freeTextView.setText("");
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                     String text = (String) buttonView.getText();
                     userInputAry[question] = text;
                     if (text.equals(answerAry[question])) {
-                        scoreAry[question] = 1.0;
+                        scoreAry[question] = 1;
                     }
                     buttonView.setChecked(false);
                     break;
@@ -134,24 +135,27 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (questionType.equals("multiple choice")) {
             userInputAry[question] = ":";
-            String[] checkBoxArray = optionAry[question].split(":");
             String[] correctAnswerAry = answerAry[question].split(":");
-            Double scoreModifier = 1.0 / ((correctAnswerAry.length)-1);  //Determine how many points each correct answer is worth
-            for (int i = 1; i < checkBoxArray.length; i++) {
+            possibleScore = possibleScore + (correctAnswerAry.length - 2);
+            int scoreCount = 0;
+            for (int i = 1 ; i <= 4 ; i++) {
                 //Get the checkbox view ID corresponding with i
                 int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
                 CheckBox checkBoxObject = findViewById(viewID);
+                String text = (String) checkBoxObject.getText();
                 if (checkBoxObject.isChecked()) {
-                    String input = ":" + checkBoxArray[i] + ":";
-                    String answer = answerAry[question]+":";
-                    if (answer.contains(input)) {
-                        scoreAry[question] = scoreAry[question] + scoreModifier;
+                    userInputAry[question] = userInputAry[question] + ":" + text;
+                    if (answerAry[question].contains(":"+text+":")) {
+                        scoreCount = scoreCount + 1;
                     } else {
-                        scoreAry[question] = scoreAry[question] - scoreModifier;
+                        scoreCount = scoreCount - 1;
                     }
-                    if (scoreAry[question] < 0.0) {scoreAry[question] = 0.0;}  //Negative points are not allowed. Scores are >= 0.0
-                    userInputAry[question] = userInputAry[question] + ":" + checkBoxArray[i];  //Record the user's answer
                     checkBoxObject.setChecked(false);  //Clear the check mark
+                }
+                if (scoreCount <= 0) {
+                    scoreAry[question] = 0;
+                } else {
+                    scoreAry[question] = scoreCount;
                 }
             }
         }
