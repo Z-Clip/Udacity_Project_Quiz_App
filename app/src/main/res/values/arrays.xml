@@ -28,7 +28,7 @@
         <item>5</item>
         <item>Giraffe</item>
         <item>To cool off</item>
-        <item>:CHLOROPHYLL</item>
+        <item>CHLOROPHYLL</item>
         <item>:Bees:Flies:Bats:Hummingbirds</item>
         <item>Cones</item>
     </string-array>
@@ -60,11 +60,11 @@
     </string-array>
     <string-array name="medium_answers">
         <item>5</item>
-        <item>:Plants:Photosynthetic Bacteria</item>
-        <item>:25%:25:25 percent</item>
-        <item>:Hair:Skin:Fingernails:Feathers</item>
-        <item>:Virons are larger than bacteria</item>
-        <item>:Platypuses are venomous</item>
+        <item>:Plants:Photosynthetic Bacteria:</item>
+        <item>25%:25:25 percent:</item>
+        <item>:Hair:Skin:Fingernails:Feathers:</item>
+        <item>Virons are larger than bacteria</item>
+        <item>Platypuses are venomous</item>
     </string-array>
 
 
@@ -95,7 +95,7 @@
     <string-array name="hard_answers">
         <item>5</item>
         <item>Golgi Apparatus</item>
-        <item>:WIND:WINDING:GENE REGULATION</item>
+        <item>WIND:WINDING:GENE REGULATION</item>
         <item>Neoproterozoic</item>
         <item>ATP</item>
         <item>:Cytokinesis:Leptotene:Diakinesis</item>

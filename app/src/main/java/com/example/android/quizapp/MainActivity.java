@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     String[] typeAry;
     String[] optionAry;
     String[] answerAry;
-    String[] userInputAry;
-    String[] scoreAry;
+    String[] userInputAry = new String [6];
+    Double[] scoreAry = new Double[6];
     //Globally defined object IDs
     EditText freeTextView;
     TextView questionHeader;
@@ -102,6 +102,61 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void checkAnswers() {
+        String questionType = typeAry[question];
+
+        if (questionType.equals("free text")) {
+            String text = freeTextView.getText().toString();
+            userInputAry[question] = text;
+            String[] correctAnswerAry = answerAry[question].split(":");
+            for (int i = 0 ; i < correctAnswerAry.length ; i++) {
+                if (text.contains(correctAnswerAry[i])) {
+                    scoreAry[question] = 1.0;
+                }
+            }
+            freeTextView.setText("");
+
+        } else if (questionType.equals("single choice")) {
+            for (int i = 1; i <= 4; i++) {
+                //Get the view ID corresponding with i
+                int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
+                RadioButton buttonView = findViewById(viewID);
+                if (buttonView.isChecked()) {
+                    String text = (String) buttonView.getText();
+                    userInputAry[question] = text;
+                    if (text.equals(answerAry[question])) {
+                        scoreAry[question] = 1.0;
+                    }
+                    buttonView.setChecked(false);
+                    break;
+                }
+            }
+
+        } else if (questionType.equals("multiple choice")) {
+            userInputAry[question] = ":";
+            String[] checkBoxArray = optionAry[question].split(":");
+            String[] correctAnswerAry = answerAry[question].split(":");
+            Double scoreModifier = 1.0 / ((correctAnswerAry.length)-1);  //Determine how many points each correct answer is worth
+            for (int i = 1; i < checkBoxArray.length; i++) {
+                //Get the checkbox view ID corresponding with i
+                int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
+                CheckBox checkBoxObject = findViewById(viewID);
+                if (checkBoxObject.isChecked()) {
+                    String input = ":" + checkBoxArray[i] + ":";
+                    String answer = answerAry[question]+":";
+                    if (answer.contains(input)) {
+                        scoreAry[question] = scoreAry[question] + scoreModifier;
+                    } else {
+                        scoreAry[question] = scoreAry[question] - scoreModifier;
+                    }
+                    if (scoreAry[question] < 0.0) {scoreAry[question] = 0.0;}  //Negative points are not allowed. Scores are >= 0.0
+                    userInputAry[question] = userInputAry[question] + ":" + checkBoxArray[i];  //Record the user's answer
+                    checkBoxObject.setChecked(false);  //Clear the check mark
+                }
+            }
+        }
+    }
+
     /* In order for setQuestionDisplay to work correctly, it assumes that all of the option views
      * already have their visibility set to GONE. This is designed to be executed just before the
      * question variable increments, and it clears out the option views.
@@ -117,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
     * the question variable, and re-sets the display.
     */
     public void nextQuestion (View view) {
+        checkAnswers();
         goneOptionViews();
         question = question + 1;
         if (question < questionAry.length) {
