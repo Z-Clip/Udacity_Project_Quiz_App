@@ -294,11 +294,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetQuiz(View view) {
         setContentView(R.layout.initial_layout);
+
+        //Carry over userName and userEmail
         userNameViewID = findViewById(R.id.userName);
         userEmailViewID = findViewById(R.id.userEmail);
         userNameViewID.setText(userName);
         userEmailViewID.setText(userEmail);
+
+        //Reset all vars and clear arrays
         possibleScore = 0;
+        difficulty = null;
+        question = 1;
+        questionAry = null;
+        typeAry = null;
+        optionAry = null;
+        answerAry = null;
+        userInputAry = null;
+        scoreAry = null;
     }
 
 }
