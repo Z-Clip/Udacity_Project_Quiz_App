@@ -5,4 +5,7 @@
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
+    <string name="final_header">Your Score</string>
+    <string name="email_me">Email Me My Score Breakdown</string>
+    <string name="try_again">Try Again</string>
 </resources>

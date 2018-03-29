@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dna_helix_2"/>
+
+    <TextView
+        android:id="@+id/final_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/dark_primary_gradient"
+        android:textColor="@color/iconText"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:text="@string/final_header"/>
+
+    <TextView
+        android:id="@+id/score_summary_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/final_header"
+        android:layout_margin="8dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="4dp"
+        android:paddingEnd="4dp"
+        android:gravity="start"
+        android:background="@drawable/dark_primary_gradient"
+        android:textColor="@color/iconText"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="X"/>
+
+    <TextView
+        android:id="@+id/percent_correct_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/dark_primary_gradient"
+        android:textColor="@color/iconText"
+        android:textSize="64sp"
+        android:textStyle="bold"
+        android:text="X"/>
+
+    <Button
+        android:id="@+id/email_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/try_again"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:gravity="center"
+        android:background="@drawable/dark_primary_gradient"
+        android:textColor="@color/iconText"
+        android:text="@string/email_me"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:onClick="emailUserScoreBreakdown"/>
+
+    <Button
+        android:id="@+id/try_again"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:gravity="center"
+        android:background="@drawable/dark_primary_gradient"
+        android:textColor="@color/iconText"
+        android:text="@string/try_again"
+        android:textAllCaps="false"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:onClick="resetQuiz"/>
+
+</RelativeLayout>

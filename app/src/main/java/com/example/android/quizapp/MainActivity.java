@@ -23,15 +23,17 @@ public class MainActivity extends AppCompatActivity {
     String difficulty;
     Boolean inputsReceived = false;
     int question = 1;
-    int possibleScore = 5;
+    int possibleScore;
     //Global Arrays
     String[] questionAry;
     String[] typeAry;
     String[] optionAry;
     String[] answerAry;
-    String[] userInputAry = new String [6];
-    int[] scoreAry = new int[6];
+    String[] userInputAry;  //Store in an array to provide a detailed breakdown in the email
+    int[] scoreAry;  //Store in an array to provide a detailed breakdown in the email
     //Globally defined object IDs
+    EditText userNameViewID;
+    EditText userEmailViewID;
     EditText freeTextView;
     TextView questionHeader;
     TextView questionText;
@@ -47,15 +49,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Receives the user input for name and email into global vars.
-    private void setUserInfo () {
-        EditText getUserName = findViewById(R.id.userName);
-        userName = getUserName.getText();
-
-        EditText getUserEmail = findViewById(R.id.userEmail);
-        userEmail = getUserEmail.getText();
+    private void setUserInfo() {
+        userNameViewID = findViewById(R.id.userName);
+        userName = userNameViewID.getText();
+        userEmailViewID = findViewById(R.id.userEmail);
+        userEmail = userEmailViewID.getText();
 
         //Check to ensure both fields have been filled out.
-        if (getUserName.length() != 0 && getUserEmail.length() !=0) {
+        if (userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
             inputsReceived = true;
         } else {
             Toast.makeText(this,"Name and email are both required to proceed.", Toast.LENGTH_SHORT).show();
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
      * the activity_main layout. It builds variables for the arrays, changes the layout, defines
      * global variables associated with the view objects, and sets the display.
      */
-    public void buildQuestionnaire () {
+    public void buildQuestionnaire() {
         //Build easy question, type, option, and answer arrays.
         populateArrays();
         //Change the layout to activity_main
@@ -116,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
         typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
         optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
         answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
+
+        possibleScore = (questionAry.length - 1);  //The possible score is equal to the number of questions (0 key does not correspond with a question)
+        userInputAry = new String[questionAry.length];
+        scoreAry = new int[questionAry.length];
     }
 
     /* There are a number of objects related to views in activity_main that are referenced a number
@@ -134,19 +139,19 @@ public class MainActivity extends AppCompatActivity {
     /*Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
      * the question variable, and re-sets the display.
      */
-    public void nextQuestion (View view) {
+    public void nextQuestion(View view) {
         checkAnswers();
         goneOptionViews();
         question = question + 1;
         if (question < questionAry.length) {
             setQuestionDisplay();
         } else {
-            calculateScore();
+            compileAndDisplayResults();
         }
     }
 
     /* This method assesses the questionAry, finds the values that correspond with the current
-    * question, and updates the views in the activity_main layout accordingly.
+     * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
         questionHeader.setText(String.valueOf("Question " + question));
@@ -190,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         String questionType = typeAry[question];
 
         if (questionType.equals("free text")) {
-            String text = freeTextView.getText().toString();
+            String text = freeTextView.getText().toString().toUpperCase();
             userInputAry[question] = text;
             String[] correctAnswerAry = answerAry[question].split(":");
             for (int i = 0 ; i < correctAnswerAry.length ; i++) {
@@ -217,10 +222,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (questionType.equals("multiple choice")) {
-            userInputAry[question] = ":";
             String[] correctAnswerAry = answerAry[question].split(":");
+            /* possibleScore already has a count of 1 associated with this question, but we need to add count
+             * for the additional possible correct answers. 0 key does not correspond with an answer.
+             * correctAnswerAry.length - 2 in the number of possible additional correct answers we need
+             * to add to possibleScore.
+             */
             possibleScore = possibleScore + (correctAnswerAry.length - 2);
             int scoreCount = 0;
+            String answerString = ":" + answerAry[question] + ":";
             for (int i = 1 ; i <= 4 ; i++) {
                 //Get the checkbox view ID corresponding with i
                 int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
@@ -228,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                 String text = (String) checkBoxObject.getText();
                 if (checkBoxObject.isChecked()) {
                     userInputAry[question] = userInputAry[question] + ":" + text;
-                    if (answerAry[question].contains(":"+text+":")) {
+                    if (answerString.contains(":" + text + ":")) {
                         scoreCount = scoreCount + 1;
                     } else {
                         scoreCount = scoreCount - 1;
@@ -248,13 +258,47 @@ public class MainActivity extends AppCompatActivity {
      * already have their visibility set to GONE. This is designed to be executed just before the
      * question variable increments, and it clears out the option views.
      */
-    public void goneOptionViews () {
+    public void goneOptionViews() {
         picture.setVisibility(View.GONE);
         freeTextView.setVisibility(View.GONE);
         singleChoiceView.setVisibility(View.GONE);
         multipleChoiceView.setVisibility(View.GONE);
     }
 
-    public void calculateScore() {}
+    public void compileAndDisplayResults() {
+        int finalScore = 0;
+        for (int i = 0 ; i < scoreAry.length ; i++) {
+            finalScore = finalScore + scoreAry[i];
+        }
+
+        String summaryInfoText = "Your Name:  " + userName;
+        summaryInfoText = summaryInfoText + "\n\n" + "Your Email:  " + userEmail;
+        summaryInfoText = summaryInfoText + "\n\n" + "Possible Score:  " + possibleScore;
+        summaryInfoText = summaryInfoText + "\n\n" + "Your Score:  " + finalScore;
+
+        double percentCorrectDouble = (double)finalScore / (double)possibleScore;
+        String percentCorrect = (String.format("%.0f" , (100 * percentCorrectDouble))) + "%";
+
+        setContentView(R.layout.final_layout);
+
+        TextView summaryInfo = findViewById(R.id.score_summary_text_view);
+        summaryInfo.setText(summaryInfoText);
+
+        TextView finalScorePercent = findViewById(R.id.percent_correct_text_view);
+        finalScorePercent.setText(percentCorrect);
+    }
+
+    public void emailUserScoreBreakdown(View view) {
+
+    }
+
+    public void resetQuiz(View view) {
+        setContentView(R.layout.initial_layout);
+        userNameViewID = findViewById(R.id.userName);
+        userEmailViewID = findViewById(R.id.userEmail);
+        userNameViewID.setText(userName);
+        userEmailViewID.setText(userEmail);
+        possibleScore = 0;
+    }
 
 }
