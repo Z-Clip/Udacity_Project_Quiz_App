@@ -290,10 +290,31 @@ public class MainActivity extends AppCompatActivity {
         finalScorePercent.setText(percentCorrect);
     }
 
+    public void resetQuiz(View view) {
+        setContentView(R.layout.initial_layout);
+
+        //Carry over userName and userEmail
+        userNameViewID = findViewById(R.id.userName);
+        userEmailViewID = findViewById(R.id.userEmail);
+        userNameViewID.setText(userName);
+        userEmailViewID.setText(userEmail);
+
+        //Reset all vars and clear arrays
+        possibleScore = 0;
+        difficulty = null;
+        question = 1;
+        questionAry = null;
+        typeAry = null;
+        optionAry = null;
+        answerAry = null;
+        userInputAry = null;
+        scoreAry = null;
+    }
+
     public void emailUserScoreBreakdown(View view) {
         String emailBody = "Hello " + userName +", \n\n";
         emailBody = emailBody + "  You have chosen to receive a detailed breakdown of your 'Think You Know: Biology Edition' score. \n\n";
-        for (int i = 1 ; i <= questionAry.length ; i++) {
+        for (int i = 1 ; i < questionAry.length ; i++) {
             String question = questionAry[i];
             emailBody = emailBody + "Question " + i + ":\n" + question + "\n";
 
@@ -301,11 +322,11 @@ public class MainActivity extends AppCompatActivity {
             if (questionType.equals("free text")) {
                 emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nYour answer needed to include one of the following words or phrases:\n    ";
                 String[] correctAnswersAry = answerAry[i].split(":");
-                String correctAnswerString = "";
-                for (int line = 0 ; line <= correctAnswersAry.length ; line++) {
-                    if (correctAnswerString.length() == 0) {
+                String correctAnswerString = null;
+                for (int line = 0 ; line < correctAnswersAry.length ; line++) {
+                    if (correctAnswerString == null) {
                         correctAnswerString = correctAnswersAry[line];
-                    } else if (line == correctAnswersAry.length) {
+                    } else if (line == correctAnswersAry.length-1) {
                         correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
                     } else {
                         correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
@@ -320,10 +341,10 @@ public class MainActivity extends AppCompatActivity {
                 emailBody = emailBody + "Your Answer(s) :\n    ";
                 String[] userAnswerAry = userInputAry[i].split(":");
                 String userAnswerString = "";
-                for (int line = 1 ; line <= userAnswerAry.length ; line++) {
+                for (int line = 1 ; line < userAnswerAry.length ; line++) {
                     if (userAnswerString.length() == 0) {
                         userAnswerString = userAnswerAry[line];
-                    } else if (line == userAnswerAry.length) {
+                    } else if (line == userAnswerAry.length-1) {
                         userAnswerString = userAnswerString + ", and " + userAnswerAry[line];
                     } else {
                         userAnswerString = userAnswerString + ", " + userAnswerAry[line];
@@ -332,11 +353,11 @@ public class MainActivity extends AppCompatActivity {
                 emailBody = emailBody + userAnswerString + "\nCorrect Answer(s):\n    ";
                 String[] correctAnswersAry = answerAry[i].split(":");
                 String correctAnswerString = "";
-                for (int line = 1 ; line <= correctAnswersAry.length ; line++) {
+                for (int line = 1 ; line < correctAnswersAry.length ; line++) {
                     if (correctAnswerString.length() == 0) {
                         correctAnswerString = correctAnswersAry[line];
-                    } else if (line == correctAnswersAry.length) {
-                        correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
+                    } else if (line == correctAnswersAry.length-1) {
+                        correctAnswerString = correctAnswerString + ", and " + correctAnswersAry[line];
                     } else {
                         correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
                     }
@@ -359,28 +380,9 @@ public class MainActivity extends AppCompatActivity {
         sendEmail.putExtra(Intent.EXTRA_TEXT, emailBody);
         if (sendEmail.resolveActivity(getPackageManager()) != null) {
             startActivity(sendEmail);
+        } else {
+            Toast.makeText(this,"Could not launch email app.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void resetQuiz(View view) {
-        setContentView(R.layout.initial_layout);
-
-        //Carry over userName and userEmail
-        userNameViewID = findViewById(R.id.userName);
-        userEmailViewID = findViewById(R.id.userEmail);
-        userNameViewID.setText(userName);
-        userEmailViewID.setText(userEmail);
-
-        //Reset all vars and clear arrays
-        possibleScore = 0;
-        difficulty = null;
-        question = 1;
-        questionAry = null;
-        typeAry = null;
-        optionAry = null;
-        answerAry = null;
-        userInputAry = null;
-        scoreAry = null;
     }
 
 }
