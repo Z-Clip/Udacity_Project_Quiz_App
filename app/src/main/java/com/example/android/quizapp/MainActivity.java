@@ -2,11 +2,13 @@ package com.example.android.quizapp;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Layout;
 import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -25,12 +27,12 @@ import android.hardware.SensorManager;
 
 public class MainActivity extends AppCompatActivity {
 
-//    OrientationEventListener orientationListener;
+    OrientationEventListener orientationListener;
     //Global variables
     Editable userName;
     Editable userEmail;
     String difficulty;
-//    String phase;
+    String phase;
     Boolean inputsReceived = false;
     int question = 1;
     int possibleScore;
@@ -56,35 +58,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_layout);
-//        phase = "initial";
-//        orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
-//            @Override
-//            public void onOrientationChanged(int orientation) {
-//                changeLayoutBasedOnOrientation(orientation);
-//            }
-//        };
-//        this.orientationListener.enable();
+        phase = "initial";
+        orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                changeLayoutBasedOnOrientation(orientation);
+            }
+        };
+        this.orientationListener.enable();
     }
 
-//    public void changeLayoutBasedOnOrientation (int orientation) {
-//            //Portrait orientation
-//            if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
-//                if (phase.equals("initial")) {
-//                    setContentView(R.layout.initial_layout);
-//                }
-//            //Landscape orientation
-//            } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
-//                if (phase.equals("initial")) {
-//                    setContentView(R.layout.initial_layout_landscape);
-//                }
-//            }
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        orientationListener.disable();
-//    }
+    public void changeLayoutBasedOnOrientation (int orientation) {
+            //Portrait orientation
+            if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
+                if (phase.equals("initial")) {
+                    setContentView(R.layout.initial_layout);
+                } else if (phase.equals("quiz")) {
+                    setContentView(R.layout.activity_main);
+                } else if (phase.equals("final")) {
+                    setContentView(R.layout.final_layout);
+                }
+            //Landscape orientation
+            } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
+                if (phase.equals("initial")) {
+                    setContentView(R.layout.initial_layout_landscape);
+                } else if (phase.equals("quiz")) {
+                    setContentView(R.layout.activity_main_landscape);
+                } else if (phase.equals("final")) {
+                    setContentView(R.layout.final_layout_landscape);
+                }
+            }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        orientationListener.disable();
+    }
 
     //Receives the user input for name and email into global vars.
     private void setUserInfo() {
@@ -139,10 +149,15 @@ public class MainActivity extends AppCompatActivity {
      * global variables associated with the view objects, and sets the display.
      */
     public void buildQuestionnaire() {
+        phase = "quiz";
         //Build easy question, type, option, and answer arrays.
         populateArrays();
         //Change the layout to activity_main
-        setContentView(R.layout.activity_main);
+        if (getResources().getConfiguration().orientation == 1) {
+            setContentView(R.layout.activity_main);
+        } else {
+            setContentView(R.layout.activity_main_landscape);
+        }
         //Define global objects
         defineObjects();
         setQuestionDisplay();
@@ -184,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         if (question < questionAry.length) {
             setQuestionDisplay();
         } else {
+            phase = "final";
             compileAndDisplayResults();
         }
     }
@@ -317,7 +333,11 @@ public class MainActivity extends AppCompatActivity {
         double percentCorrectDouble = (double)finalScore / (double)possibleScore;
         String percentCorrect = (String.format("%.0f" , (100 * percentCorrectDouble))) + "%";
 
-        setContentView(R.layout.final_layout);
+        if (getResources().getConfiguration().orientation == 1) {
+            setContentView(R.layout.final_layout);
+        } else {
+            setContentView(R.layout.final_layout_landscape);
+        }
 
         TextView summaryInfo = findViewById(R.id.score_summary_text_view);
         summaryInfo.setText(summaryInfoText);
@@ -327,7 +347,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resetQuiz(View view) {
-        setContentView(R.layout.initial_layout);
+        phase = "initial";
+        if (getResources().getConfiguration().orientation == 1) {
+            setContentView(R.layout.initial_layout);
+        } else {
+            setContentView(R.layout.initial_layout_landscape);
+        }
 
         //Carry over userName and userEmail
         userNameViewID = findViewById(R.id.userName);

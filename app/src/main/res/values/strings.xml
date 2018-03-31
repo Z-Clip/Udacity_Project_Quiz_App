@@ -9,4 +9,5 @@
     <string name="final_header">Your Score</string>
     <string name="email_me">Email Me My Score Breakdown</string>
     <string name="try_again">Try Again</string>
+    <string name="next_question">Next Question</string>
 </resources>
