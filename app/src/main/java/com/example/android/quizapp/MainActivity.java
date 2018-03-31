@@ -316,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         emailBody = emailBody + "  You have chosen to receive a detailed breakdown of your 'Think You Know: Biology Edition' score. \n\n";
         for (int i = 1 ; i < questionAry.length ; i++) {
             String question = questionAry[i];
-            emailBody = emailBody + "Question " + i + ":\n" + question + "\n";
+            emailBody = emailBody + "Question " + i + ":\n" + question + "\n\n";
 
             String questionType = typeAry[i];
             if (questionType.equals("free text")) {
@@ -373,9 +373,11 @@ public class MainActivity extends AppCompatActivity {
 
         emailBody = emailBody + "Possible points = " + possibleScore + "\n" + "Your point total = " + finalScore + "\n\nThanks for playing!" ;
 
+        String[] userEmailAry = {userEmail.toString()};
+
         Intent sendEmail = new Intent(Intent.ACTION_SENDTO);
         sendEmail.setData(Uri.parse("mailto:"));
-        sendEmail.putExtra(Intent.EXTRA_EMAIL, userEmail);
+        sendEmail.putExtra(Intent.EXTRA_EMAIL,userEmailAry);
         sendEmail.putExtra(Intent.EXTRA_SUBJECT, userName + "'s 'Think You Know :Biology Edition' Score Breakdown");
         sendEmail.putExtra(Intent.EXTRA_TEXT, emailBody);
         if (sendEmail.resolveActivity(getPackageManager()) != null) {
