@@ -25,12 +25,12 @@ import android.hardware.SensorManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    OrientationEventListener orientationListener;
+//    OrientationEventListener orientationListener;
     //Global variables
     Editable userName;
     Editable userEmail;
     String difficulty;
-    String phase;
+//    String phase;
     Boolean inputsReceived = false;
     int question = 1;
     int possibleScore;
@@ -56,35 +56,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_layout);
-        phase = "initial";
-        orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
-            @Override
-            public void onOrientationChanged(int orientation) {
-                changeLayoutBasedOnOrientation(orientation);
-            }
-        };
-        this.orientationListener.enable();
+//        phase = "initial";
+//        orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
+//            @Override
+//            public void onOrientationChanged(int orientation) {
+//                changeLayoutBasedOnOrientation(orientation);
+//            }
+//        };
+//        this.orientationListener.enable();
     }
 
-    public void changeLayoutBasedOnOrientation (int orientation) {
-            //Portrait orientation
-            if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
-                if (phase.equals("initial")) {
-                    setContentView(R.layout.initial_layout);
-                }
-            //Landscape orientation
-            } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
-                if (phase.equals("initial")) {
-                    setContentView(R.layout.initial_layout_landscape);
-                }
-            }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        orientationListener.disable();
-    }
+//    public void changeLayoutBasedOnOrientation (int orientation) {
+//            //Portrait orientation
+//            if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
+//                if (phase.equals("initial")) {
+//                    setContentView(R.layout.initial_layout);
+//                }
+//            //Landscape orientation
+//            } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
+//                if (phase.equals("initial")) {
+//                    setContentView(R.layout.initial_layout_landscape);
+//                }
+//            }
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        orientationListener.disable();
+//    }
 
     //Receives the user input for name and email into global vars.
     private void setUserInfo() {
