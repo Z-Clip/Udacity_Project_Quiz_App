@@ -1,5 +1,7 @@
 package com.example.android.quizapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -289,7 +291,75 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void emailUserScoreBreakdown(View view) {
+        String emailBody = "Hello " + userName +", \n\n";
+        emailBody = emailBody + "  You have chosen to receive a detailed breakdown of your 'Think You Know: Biology Edition' score. \n\n";
+        for (int i = 1 ; i <= questionAry.length ; i++) {
+            String question = questionAry[i];
+            emailBody = emailBody + "Question " + i + ":\n" + question + "\n";
 
+            String questionType = typeAry[i];
+            if (questionType.equals("free text")) {
+                emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nYour answer needed to include one of the following words or phrases:\n    ";
+                String[] correctAnswersAry = answerAry[i].split(":");
+                String correctAnswerString = "";
+                for (int line = 0 ; line <= correctAnswersAry.length ; line++) {
+                    if (correctAnswerString.length() == 0) {
+                        correctAnswerString = correctAnswersAry[line];
+                    } else if (line == correctAnswersAry.length) {
+                        correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
+                    } else {
+                        correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
+                    }
+                }
+                emailBody = emailBody + correctAnswerString + "\n\n";
+
+            } else if (questionType.equals("single choice")) {
+                emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nCorrect Answer:\n    " + answerAry[i] + "\n\n";
+
+            } else if (questionType.equals("multiple choice")) {
+                emailBody = emailBody + "Your Answer(s) :\n    ";
+                String[] userAnswerAry = userInputAry[i].split(":");
+                String userAnswerString = "";
+                for (int line = 1 ; line <= userAnswerAry.length ; line++) {
+                    if (userAnswerString.length() == 0) {
+                        userAnswerString = userAnswerAry[line];
+                    } else if (line == userAnswerAry.length) {
+                        userAnswerString = userAnswerString + ", and " + userAnswerAry[line];
+                    } else {
+                        userAnswerString = userAnswerString + ", " + userAnswerAry[line];
+                    }
+                }
+                emailBody = emailBody + userAnswerString + "\nCorrect Answer(s):\n    ";
+                String[] correctAnswersAry = answerAry[i].split(":");
+                String correctAnswerString = "";
+                for (int line = 1 ; line <= correctAnswersAry.length ; line++) {
+                    if (correctAnswerString.length() == 0) {
+                        correctAnswerString = correctAnswersAry[line];
+                    } else if (line == correctAnswersAry.length) {
+                        correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
+                    } else {
+                        correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
+                    }
+                }
+                emailBody = emailBody + correctAnswerString + "\n\n";
+            }
+        }
+
+        int finalScore = 0;
+        for (int i = 0 ; i < scoreAry.length ; i++) {
+            finalScore = finalScore + scoreAry[i];
+        }
+
+        emailBody = emailBody + "Possible points = " + possibleScore + "\n" + "Your point total = " + finalScore + "\n\nThanks for playing!" ;
+
+        Intent sendEmail = new Intent(Intent.ACTION_SENDTO);
+        sendEmail.setData(Uri.parse("mailto:"));
+        sendEmail.putExtra(Intent.EXTRA_EMAIL, userEmail);
+        sendEmail.putExtra(Intent.EXTRA_SUBJECT, userName + "'s 'Think You Know :Biology Edition' Score Breakdown");
+        sendEmail.putExtra(Intent.EXTRA_TEXT, emailBody);
+        if (sendEmail.resolveActivity(getPackageManager()) != null) {
+            startActivity(sendEmail);
+        }
     }
 
     public void resetQuiz(View view) {
