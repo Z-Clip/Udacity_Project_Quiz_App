@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout multipleChoiceView;
     ImageView picture;
 
+
+    // Save off key global variables on saveInstanceState
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -75,11 +77,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_layout);
-        editTextListeners();
+        editTextListeners();  //Configure listeners for the EditText objects on the first layout
         phase = "initial";
-        rebuildState(savedInstanceState);
+        rebuildState(savedInstanceState);  //Rebuild vars on a state change
     }
 
+    //Rebuild key global variables on a state change
     public void rebuildState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             userName = (Editable) savedInstanceState.getCharSequence("userName" , userName);
@@ -94,6 +97,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* In the very first layout, there are two EditText views for userName and userEmail. If the
+     * configuration changes before you've clicked a difficulty button, the user input is lost
+     * because the EditText views' values have not been saved off to variables yet. These listeners
+     * attempt to save those values to variables on IME action 'done'. It's not bullet proof, but
+     * it's the best I've got right now.
+     */
     public void editTextListeners() {
         userNameViewID = findViewById(R.id.userName);
         userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -120,12 +129,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //If a configuration change is detected, execute changeLayoutBasedOnOrientation
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         changeLayoutBasedOnOrientation(newConfig);
     }
 
+    /* Executed when a configuration change is detected. Flips between the portrait and landscape
+     * orientation for whatever layout is current active (base on the 'phase' of the app). It also
+     * rebuilds the views for the layout.
+     */
     public void changeLayoutBasedOnOrientation (Configuration newConfig) {
         //Portrait orientation
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -145,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 populateArrays();
                 compileAndDisplayResults();
             }
+
             //Landscape orientation
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (phase.equals("initial")) {
@@ -166,7 +181,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Receives the user input for name and email into global vars.
+    /*Executed when a difficulty button is selected on the initial layout.
+     * Receives the user input for name and email into global vars.
+     */
     private void setUserInfo() {
         userNameViewID = findViewById(R.id.userName);
         userName = userNameViewID.getText();
@@ -224,6 +241,9 @@ public class MainActivity extends AppCompatActivity {
     public void buildQuestionnaire() {
         //Build easy question, type, option, and answer arrays.
         populateArrays();
+        /* The following arrays are not defined in populateArrays because we don't want their values
+         * reverting on a state change.
+         */
         possibleScore = (questionAry.length - 1);  //The possible score is equal to the number of questions (0 key does not correspond with a question)
         userInputAry = new String[questionAry.length];
         scoreAry = new int[questionAry.length];
@@ -260,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         picture = findViewById(R.id.image);
     }
 
-    /*Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
+    /* Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
      * the question variable, and re-sets the display.
      */
     public void nextQuestion(View view) {
@@ -316,6 +336,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* This method gets the user input for a question, saves it to the userInputAry (for retrieval in
+     * the detailed score breakdown, and determines whether the user's answer is correct. The method
+     * used to evaluate the answer depends on the type of question.
+     * 'free text' questions check to see whether the user's input contains one or more keywords.
+     * 'single choice' questions check to see whether the user's selection matches the correct answer.
+     * 'multiple choice' questions compare the user's selection(s) to the correct answer(s).
+     */
     public void checkAnswers() {
         String questionType = typeAry[question];
 
@@ -328,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
                     scoreAry[question] = 1;
                 }
             }
-            freeTextView.setText("");
+            freeTextView.setText("");  //Clear the text
 
         } else if (questionType.equals("single choice")) {
             for (int i = 1; i <= 4; i++) {
@@ -341,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
                     if (text.equals(answerAry[question])) {
                         scoreAry[question] = 1;
                     }
-                    buttonView.setChecked(false);
+                    buttonView.setChecked(false);  //Clear the selection
                     break;
                 }
             }
@@ -390,6 +417,7 @@ public class MainActivity extends AppCompatActivity {
         multipleChoiceView.setVisibility(View.GONE);
     }
 
+    // This method compiles the user's score and displays the results.
     public void compileAndDisplayResults() {
         int finalScore = 0;
         for (int i = 0 ; i < scoreAry.length ; i++) {
@@ -417,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
         finalScorePercent.setText(percentCorrect);
     }
 
+    //Resets all the variables except for userName and userEmail and reverts to the initial layout.
     public void resetQuiz(View view) {
         phase = "initial";
         if (getResources().getConfiguration().orientation == 1) {
@@ -443,6 +472,10 @@ public class MainActivity extends AppCompatActivity {
         scoreAry = null;
     }
 
+    /* Executed if the user selects the button to email a detailed score breakdown.  The bulk of
+     * this method involves the creation of the text of the body of the email. There must be a better
+     * way to do this... but this works for now.
+     */
     public void emailUserScoreBreakdown(View view) {
         String emailBody = "Hello " + userName +", \n\n";
         emailBody = emailBody + "  You have chosen to receive a detailed breakdown of your 'Think You Know: Biology Edition' score. \n\n";
