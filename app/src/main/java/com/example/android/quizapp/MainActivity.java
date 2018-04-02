@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     userName = userNameViewID.getText();
-                    Log.v("JKL Test", "userName listener worked");
                     return true;
                 }
                 return false;
@@ -121,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     userEmail = userEmailViewID.getText();
-                    Log.v("JKL Test", "userEmail listener worked");
                     return true;
                 }
                 return false;
