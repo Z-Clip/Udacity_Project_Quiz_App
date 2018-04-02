@@ -55,20 +55,10 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout multipleChoiceView;
     ImageView picture;
 
-    //On create method. Loads the initial layout.
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.initial_layout);
-        phase = "initial";
-        rebuildState(savedInstanceState);
-        editTextListeners();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        Log.v("JKL Test", "Vars saved off successfully");
         outState.putCharSequence("userName" , userName);
         outState.putCharSequence("userEmail" , userEmail);
         outState.putString("phase" , phase);
@@ -78,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt("possibleScore" , possibleScore);
         outState.putStringArray("userInputAry" , userInputAry);
         outState.putIntArray("scoreAry" , scoreAry);
+    }
+
+    //On create method. Loads the initial layout.
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.initial_layout);
+        editTextListeners();
+        phase = "initial";
+        rebuildState(savedInstanceState);
     }
 
     public void rebuildState(Bundle savedInstanceState) {
@@ -91,18 +91,6 @@ public class MainActivity extends AppCompatActivity {
             possibleScore = savedInstanceState.getInt("possibleScore");
             userInputAry = savedInstanceState.getStringArray("userInputAry");
             scoreAry = savedInstanceState.getIntArray("scoreAry");
-
-            if (phase.equals("initial") && userName != null) {
-                userNameViewID = findViewById(R.id.userName);
-                userNameViewID.setText(userName);
-            } else if (phase.equals("quiz")) {
-                populateArrays();
-                defineObjects();
-                setQuestionDisplay();
-            } else if (phase.equals("final")) {
-                populateArrays();
-                compileAndDisplayResults();
-            }
         }
     }
 
@@ -113,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     userName = userNameViewID.getText();
+                    Log.v("JKL Test", "userName listener worked");
                     return true;
                 }
                 return false;
@@ -120,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
         });
         userEmailViewID = findViewById(R.id.userEmail);
         userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     userEmail = userEmailViewID.getText();
+                    Log.v("JKL Test", "userEmail listener worked");
                     return true;
                 }
                 return false;
@@ -142,27 +131,39 @@ public class MainActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (phase.equals("initial")) {
                 setContentView(R.layout.initial_layout);
+                userNameViewID = findViewById(R.id.userName);
+                userNameViewID.setText(userName);
+                userEmailViewID = findViewById(R.id.userEmail);
+                userEmailViewID.setText(userEmail);
             } else if (phase.equals("quiz")) {
                 setContentView(R.layout.activity_main);
+                populateArrays();
+                defineObjects();
+                setQuestionDisplay();
             } else if (phase.equals("final")) {
                 setContentView(R.layout.final_layout);
+                populateArrays();
+                compileAndDisplayResults();
             }
             //Landscape orientation
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (phase.equals("initial")) {
                 setContentView(R.layout.initial_layout_landscape);
+                userNameViewID = findViewById(R.id.userName);
+                userNameViewID.setText(userName);
+                userEmailViewID = findViewById(R.id.userEmail);
+                userEmailViewID.setText(userEmail);
             } else if (phase.equals("quiz")) {
                 setContentView(R.layout.activity_main_landscape);
+                populateArrays();
+                defineObjects();
+                setQuestionDisplay();
             } else if (phase.equals("final")) {
                 setContentView(R.layout.final_layout_landscape);
+                populateArrays();
+                compileAndDisplayResults();
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        orientationListener.disable();
     }
 
     //Receives the user input for name and email into global vars.
@@ -223,6 +224,9 @@ public class MainActivity extends AppCompatActivity {
     public void buildQuestionnaire() {
         //Build easy question, type, option, and answer arrays.
         populateArrays();
+        possibleScore = (questionAry.length - 1);  //The possible score is equal to the number of questions (0 key does not correspond with a question)
+        userInputAry = new String[questionAry.length];
+        scoreAry = new int[questionAry.length];
         //Change the layout to activity_main
         if (getResources().getConfiguration().orientation == 1) {
             setContentView(R.layout.activity_main);
@@ -241,10 +245,6 @@ public class MainActivity extends AppCompatActivity {
         typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
         optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
         answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
-
-        possibleScore = (questionAry.length - 1);  //The possible score is equal to the number of questions (0 key does not correspond with a question)
-        userInputAry = new String[questionAry.length];
-        scoreAry = new int[questionAry.length];
     }
 
     /* There are a number of objects related to views in activity_main that are referenced a number
