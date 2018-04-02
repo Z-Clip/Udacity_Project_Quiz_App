@@ -2,6 +2,7 @@ package com.example.android.quizapp;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.hardware.SensorManager;
 import android.net.Uri;
@@ -29,7 +30,6 @@ import android.hardware.SensorManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    OrientationEventListener orientationListener;
     //Global variables
     Editable userName;
     Editable userEmail;
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         phase = "initial";
         rebuildState(savedInstanceState);
         editTextListeners();
-        deviceOrientationListener();
     }
 
     @Override
@@ -132,19 +131,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void deviceOrientationListener() {
-        orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
-            @Override
-            public void onOrientationChanged(int orientation) {
-                changeLayoutBasedOnOrientation(orientation);
-            }
-        };
-        this.orientationListener.enable();
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        changeLayoutBasedOnOrientation(newConfig);
     }
 
-    public void changeLayoutBasedOnOrientation (int orientation) {
+    public void changeLayoutBasedOnOrientation (Configuration newConfig) {
         //Portrait orientation
-        if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             if (phase.equals("initial")) {
                 setContentView(R.layout.initial_layout);
             } else if (phase.equals("quiz")) {
@@ -153,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 setContentView(R.layout.final_layout);
             }
             //Landscape orientation
-        } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (phase.equals("initial")) {
                 setContentView(R.layout.initial_layout_landscape);
             } else if (phase.equals("quiz")) {
