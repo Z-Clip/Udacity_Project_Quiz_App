@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,6 +61,78 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_layout);
         phase = "initial";
+        rebuildState(savedInstanceState);
+        editTextListeners();
+        deviceOrientationListener();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putCharSequence("userName" , userName);
+        outState.putCharSequence("userEmail" , userEmail);
+        outState.putString("phase" , phase);
+        outState.putString("difficulty" , difficulty);
+        outState.putBoolean("inputsReceived" , inputsReceived);
+        outState.putInt("question" , question);
+        outState.putInt("possibleScore" , possibleScore);
+        outState.putStringArray("userInputAry" , userInputAry);
+        outState.putIntArray("scoreAry" , scoreAry);
+    }
+
+    public void rebuildState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            userName = (Editable) savedInstanceState.getCharSequence("userName" , userName);
+            userEmail = (Editable) savedInstanceState.getCharSequence("userEmail" , userEmail);
+            phase = savedInstanceState.getString("phase");
+            difficulty = savedInstanceState.getString("difficulty");
+            inputsReceived = savedInstanceState.getBoolean("inputsReceived");
+            question = savedInstanceState.getInt("question");
+            possibleScore = savedInstanceState.getInt("possibleScore");
+            userInputAry = savedInstanceState.getStringArray("userInputAry");
+            scoreAry = savedInstanceState.getIntArray("scoreAry");
+
+            if (phase.equals("initial") && userName != null) {
+                userNameViewID = findViewById(R.id.userName);
+                userNameViewID.setText(userName);
+            } else if (phase.equals("quiz")) {
+                populateArrays();
+                defineObjects();
+                setQuestionDisplay();
+            } else if (phase.equals("final")) {
+                populateArrays();
+                compileAndDisplayResults();
+            }
+        }
+    }
+
+    public void editTextListeners() {
+        userNameViewID = findViewById(R.id.userName);
+        userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    userName = userNameViewID.getText();
+                    return true;
+                }
+                return false;
+            }
+        });
+        userEmailViewID = findViewById(R.id.userEmail);
+        userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    userEmail = userEmailViewID.getText();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void deviceOrientationListener() {
         orientationListener = new OrientationEventListener(this, SensorManager.SENSOR_DELAY_NORMAL) {
             @Override
             public void onOrientationChanged(int orientation) {
@@ -69,25 +143,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeLayoutBasedOnOrientation (int orientation) {
-            //Portrait orientation
-            if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
-                if (phase.equals("initial")) {
-                    setContentView(R.layout.initial_layout);
-                } else if (phase.equals("quiz")) {
-                    setContentView(R.layout.activity_main);
-                } else if (phase.equals("final")) {
-                    setContentView(R.layout.final_layout);
-                }
-            //Landscape orientation
-            } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
-                if (phase.equals("initial")) {
-                    setContentView(R.layout.initial_layout_landscape);
-                } else if (phase.equals("quiz")) {
-                    setContentView(R.layout.activity_main_landscape);
-                } else if (phase.equals("final")) {
-                    setContentView(R.layout.final_layout_landscape);
-                }
+        //Portrait orientation
+        if ((orientation > 330 || orientation < 40) || (orientation > 140 && orientation < 220)) {
+            if (phase.equals("initial")) {
+                setContentView(R.layout.initial_layout);
+            } else if (phase.equals("quiz")) {
+                setContentView(R.layout.activity_main);
+            } else if (phase.equals("final")) {
+                setContentView(R.layout.final_layout);
             }
+            //Landscape orientation
+        } else if ((orientation > 40 && orientation < 140) || (orientation > 220 && orientation < 330)) {
+            if (phase.equals("initial")) {
+                setContentView(R.layout.initial_layout_landscape);
+            } else if (phase.equals("quiz")) {
+                setContentView(R.layout.activity_main_landscape);
+            } else if (phase.equals("final")) {
+                setContentView(R.layout.final_layout_landscape);
+            }
+        }
     }
 
     @Override
@@ -104,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         userEmail = userEmailViewID.getText();
 
         //Check to ensure both fields have been filled out.
-        if (userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
+        if (phase.equals("quiz") && userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
             inputsReceived = true;
         } else {
             Toast.makeText(this,"Name and email are both required to proceed.", Toast.LENGTH_SHORT).show();
@@ -113,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Executed if the user clicks the easy button on the initial layout
     public void setEasyQuizParams(View view) {
+        phase = "quiz";
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
@@ -124,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Executed if the user clicks the medium button on the initial layout
     public void setMediumQuizParams(View view) {
+        phase = "quiz";
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
@@ -135,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Executed if the user clicks the hard button on the initial layout
     public void setHardQuizParams(View view) {
+        phase = "quiz";
         setUserInfo();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
@@ -149,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
      * global variables associated with the view objects, and sets the display.
      */
     public void buildQuestionnaire() {
-        phase = "quiz";
         //Build easy question, type, option, and answer arrays.
         populateArrays();
         //Change the layout to activity_main
