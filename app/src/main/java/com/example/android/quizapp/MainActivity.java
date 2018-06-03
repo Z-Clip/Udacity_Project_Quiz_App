@@ -1,18 +1,12 @@
 package com.example.android.quizapp;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Layout;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
@@ -23,10 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
-import android.hardware.SensorManager;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,15 +50,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putCharSequence("userName" , userName);
-        outState.putCharSequence("userEmail" , userEmail);
-        outState.putString("phase" , phase);
-        outState.putString("difficulty" , difficulty);
-        outState.putBoolean("inputsReceived" , inputsReceived);
-        outState.putInt("question" , question);
-        outState.putInt("possibleScore" , possibleScore);
-        outState.putStringArray("userInputAry" , userInputAry);
-        outState.putIntArray("scoreAry" , scoreAry);
+        outState.putCharSequence("userName", userName);
+        outState.putCharSequence("userEmail", userEmail);
+        outState.putString("phase", phase);
+        outState.putString("difficulty", difficulty);
+        outState.putBoolean("inputsReceived", inputsReceived);
+        outState.putInt("question", question);
+        outState.putInt("possibleScore", possibleScore);
+        outState.putStringArray("userInputAry", userInputAry);
+        outState.putIntArray("scoreAry", scoreAry);
     }
 
     //On create method. Loads the initial layout.
@@ -84,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
     //Rebuild key global variables on a state change
     public void rebuildState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            userName = (Editable) savedInstanceState.getCharSequence("userName" , userName);
-            userEmail = (Editable) savedInstanceState.getCharSequence("userEmail" , userEmail);
+            userName = (Editable) savedInstanceState.getCharSequence("userName", userName);
+            userEmail = (Editable) savedInstanceState.getCharSequence("userEmail", userEmail);
             phase = savedInstanceState.getString("phase");
             difficulty = savedInstanceState.getString("difficulty");
             inputsReceived = savedInstanceState.getBoolean("inputsReceived");
@@ -137,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
      * orientation for whatever layout is current active (base on the 'phase' of the app). It also
      * rebuilds the views for the layout.
      */
-    public void changeLayoutBasedOnOrientation (Configuration newConfig) {
+    public void changeLayoutBasedOnOrientation(Configuration newConfig) {
         //Portrait orientation
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             switch (phase) {
@@ -159,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             }
             //Landscape orientation
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            switch(phase) {
+            switch (phase) {
                 case "initial":
                     setContentView(R.layout.initial_layout_landscape);
                     setUserInfo(null);
@@ -182,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     /*Executed when a difficulty button is selected on the initial layout.
      * Receives the user input for name and email into global vars.
      */
-    private void setUserInfo(View view) {
+    public void setUserInfo(View view) {
         userNameViewID = findViewById(R.id.userName);
         userName = userNameViewID.getText();
         userEmailViewID = findViewById(R.id.userEmail);
@@ -192,10 +182,10 @@ public class MainActivity extends AppCompatActivity {
     //Ensures a username and email have been supplied before launching the quiz.
     public void completionCheck() {
         //Check to ensure both fields have been filled out.
-        if (phase.equals("quiz") && userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
+        if (phase.equals("quiz") && userNameViewID.length() != 0 && userEmailViewID.length() != 0) {
             inputsReceived = true;
         } else {
-            Toast.makeText(this,"Name and email are both required to proceed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Name and email are both required to proceed.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -208,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         if (!inputsReceived) {
             return;
         }
-        difficulty="easy";
+        difficulty = "easy";
         buildQuestionnaire();
     }
 
@@ -221,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
         if (!inputsReceived) {
             return;
         }
-        difficulty="medium";
+        difficulty = "medium";
         buildQuestionnaire();
     }
 
@@ -234,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         if (!inputsReceived) {
             return;
         }
-        difficulty="hard";
+        difficulty = "hard";
         buildQuestionnaire();
     }
 
@@ -265,10 +255,10 @@ public class MainActivity extends AppCompatActivity {
     // This method sets global array variables based on the string arrays stored in the array resource
     public void populateArrays() {
         //Grab the needed string arrays from the arrays resource
-        questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_questions", "array", getPackageName()));
-        typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_types", "array", getPackageName()));
-        optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_options", "array", getPackageName()));
-        answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty+"_answers", "array", getPackageName()));
+        questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_questions", "array", getPackageName()));
+        typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_types", "array", getPackageName()));
+        optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_options", "array", getPackageName()));
+        answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_answers", "array", getPackageName()));
     }
 
     /* There are a number of objects related to views in activity_main that are referenced a number
@@ -306,37 +296,39 @@ public class MainActivity extends AppCompatActivity {
         questionHeader.setText(String.valueOf("Question " + question));
         questionText.setText(String.valueOf(questionAry[question]));
 
-        int imageID = getResources().getIdentifier(difficulty+"_"+question ,"drawable",getPackageName());
+        int imageID = getResources().getIdentifier(difficulty + "_" + question, "drawable", getPackageName());
         if (imageID >= 0) {
             picture.setVisibility(View.VISIBLE);
             picture.setImageResource(imageID);
         }
 
         String questionType = typeAry[question];
-        if (questionType.equals("free text")) {
-            freeTextView.setVisibility(View.VISIBLE);  //Make visible
-
-        } else if (questionType.equals("single choice")) {
-            singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
-            //Set the text for the radio buttons
-            String[] radioButtonArray = optionAry[question].split(":");
-            for (int i = 1; i < radioButtonArray.length; i++) {
-                //Get the view ID corresponding with i
-                int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
-                RadioButton buttonText = findViewById(viewID);
-                buttonText.setText(radioButtonArray[i]);
-            }
-
-        } else if (questionType.equals("multiple choice")) {
-            multipleChoiceView.setVisibility(View.VISIBLE);
-            //Set the text for the checkboxes
-            String[] checkBoxArray = optionAry[question].split(":");
-            for (int i = 1; i < checkBoxArray.length; i++) {
-                //Get the view ID corresponding with i
-                int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
-                CheckBox buttonText = findViewById(viewID);
-                buttonText.setText(checkBoxArray[i]);
-            }
+        switch (questionType) {
+            case "free text":
+                freeTextView.setVisibility(View.VISIBLE);  //Make visible
+                break;
+            case "single choice":
+                singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
+                //Set the text for the radio buttons
+                String[] radioButtonArray = optionAry[question].split(":");
+                for (int i = 1; i < radioButtonArray.length; i++) {
+                    //Get the view ID corresponding with i
+                    int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
+                    RadioButton buttonText = findViewById(viewID);
+                    buttonText.setText(radioButtonArray[i]);
+                }
+                break;
+            case "multiple choice":
+                multipleChoiceView.setVisibility(View.VISIBLE);
+                //Set the text for the checkboxes
+                String[] checkBoxArray = optionAry[question].split(":");
+                for (int i = 1; i < checkBoxArray.length; i++) {
+                    //Get the view ID corresponding with i
+                    int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
+                    CheckBox buttonText = findViewById(viewID);
+                    buttonText.setText(checkBoxArray[i]);
+                }
+                break;
         }
     }
 
@@ -349,64 +341,65 @@ public class MainActivity extends AppCompatActivity {
      */
     public void checkAnswers() {
         String questionType = typeAry[question];
-
-        if (questionType.equals("free text")) {
-            String text = freeTextView.getText().toString().toUpperCase();
-            userInputAry[question] = text;
-            String[] correctAnswerAry = answerAry[question].split(":");
-            for (int i = 0 ; i < correctAnswerAry.length ; i++) {
-                if (text.contains(correctAnswerAry[i])) {
-                    scoreAry[question] = 1;
-                }
-            }
-            freeTextView.setText("");  //Clear the text
-
-        } else if (questionType.equals("single choice")) {
-            for (int i = 1; i <= 4; i++) {
-                //Get the view ID corresponding with i
-                int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
-                RadioButton buttonView = findViewById(viewID);
-                if (buttonView.isChecked()) {
-                    String text = (String) buttonView.getText();
-                    userInputAry[question] = text;
-                    if (text.equals(answerAry[question])) {
+        switch (questionType) {
+            case "free text":
+                String text = freeTextView.getText().toString().toUpperCase();
+                userInputAry[question] = text;
+                String[] correctAnswerAry = answerAry[question].split(":");
+                for (String answer: correctAnswerAry) {
+                    if (text.contains(answer)) {
                         scoreAry[question] = 1;
                     }
-                    buttonView.setChecked(false);  //Clear the selection
-                    break;
                 }
-            }
-
-        } else if (questionType.equals("multiple choice")) {
-            String[] correctAnswerAry = answerAry[question].split(":");
-            /* possibleScore already has a count of 1 associated with this question, but we need to add count
-             * for the additional possible correct answers. 0 key does not correspond with an answer.
-             * correctAnswerAry.length - 2 in the number of possible additional correct answers we need
-             * to add to possibleScore.
-             */
-            possibleScore = possibleScore + (correctAnswerAry.length - 2);
-            int scoreCount = 0;
-            String answerString = ":" + answerAry[question] + ":";
-            for (int i = 1 ; i <= 4 ; i++) {
-                //Get the checkbox view ID corresponding with i
-                int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
-                CheckBox checkBoxObject = findViewById(viewID);
-                String text = (String) checkBoxObject.getText();
-                if (checkBoxObject.isChecked()) {
-                    userInputAry[question] = userInputAry[question] + ":" + text;
-                    if (answerString.contains(":" + text + ":")) {
-                        scoreCount = scoreCount + 1;
-                    } else {
-                        scoreCount = scoreCount - 1;
+                freeTextView.setText("");  //Clear the text
+                break;
+            case "single choice":
+                for (int i = 1; i <= 4; i++) {
+                    //Get the view ID corresponding with i
+                    int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
+                    RadioButton buttonView = findViewById(viewID);
+                    if (buttonView.isChecked()) {
+                        String textS = (String) buttonView.getText();
+                        userInputAry[question] = textS;
+                        if (textS.equals(answerAry[question])) {
+                            scoreAry[question] = 1;
+                        }
+                        buttonView.setChecked(false);  //Clear the selection
+                        break;
                     }
-                    checkBoxObject.setChecked(false);  //Clear the check mark
                 }
-                if (scoreCount <= 0) {
-                    scoreAry[question] = 0;
-                } else {
-                    scoreAry[question] = scoreCount;
+                break;
+            case "multiple choice":
+                String[] correctAnswerAryM = answerAry[question].split(":");
+                /* possibleScore already has a count of 1 associated with this question, but we need to add count
+                 * for the additional possible correct answers. 0 key does not correspond with an answer.
+                 * correctAnswerAryM.length - 2 in the number of possible additional correct answers we need
+                 * to add to possibleScore.
+                 */
+                possibleScore = possibleScore + (correctAnswerAryM.length - 2);
+                int scoreCount = 0;
+                String answerString = ":" + answerAry[question] + ":";
+                for (int i = 1; i <= 4; i++) {
+                    //Get the checkbox view ID corresponding with i
+                    int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
+                    CheckBox checkBoxObject = findViewById(viewID);
+                    String textM = (String) checkBoxObject.getText();
+                    if (checkBoxObject.isChecked()) {
+                        userInputAry[question] = userInputAry[question] + ":" + textM;
+                        if (answerString.contains(":" + textM + ":")) {
+                            scoreCount = scoreCount + 1;
+                        } else {
+                            scoreCount = scoreCount - 1;
+                        }
+                        checkBoxObject.setChecked(false);  //Clear the check mark
+                    }
+                    if (scoreCount <= 0) {
+                        scoreAry[question] = 0;
+                    } else {
+                        scoreAry[question] = scoreCount;
+                    }
                 }
-            }
+                break;
         }
     }
 
@@ -424,8 +417,8 @@ public class MainActivity extends AppCompatActivity {
     // This method compiles the user's score and displays the results.
     public void compileAndDisplayResults() {
         int finalScore = 0;
-        for (int i = 0 ; i < scoreAry.length ; i++) {
-            finalScore = finalScore + scoreAry[i];
+        for (int point : scoreAry) {
+            finalScore = finalScore + point;
         }
 
         String summaryInfoText = "Your Name:  " + userName;
@@ -433,8 +426,8 @@ public class MainActivity extends AppCompatActivity {
         summaryInfoText = summaryInfoText + "\n\n" + "Possible Score:  " + possibleScore;
         summaryInfoText = summaryInfoText + "\n\n" + "Your Score:  " + finalScore;
 
-        double percentCorrectDouble = (double)finalScore / (double)possibleScore;
-        String percentCorrect = (String.format("%.0f" , (100 * percentCorrectDouble))) + "%";
+        double percentCorrectDouble = (double) finalScore / (double) possibleScore;
+        String percentCorrect = (String.format("%.0f", (100 * percentCorrectDouble))) + "%";
 
         if (getResources().getConfiguration().orientation == 1) {
             setContentView(R.layout.final_layout);
@@ -481,78 +474,80 @@ public class MainActivity extends AppCompatActivity {
      * way to do this... but this works for now.
      */
     public void emailUserScoreBreakdown(View view) {
-        String emailBody = "Hello " + userName +", \n\n";
+        String emailBody = "Hello " + userName + ", \n\n";
         emailBody = emailBody + "  You have chosen to receive a detailed breakdown of your 'Think You Know: Biology Edition' score. \n\n";
-        for (int i = 1 ; i < questionAry.length ; i++) {
+        for (int i = 1; i < questionAry.length; i++) {
             String question = questionAry[i];
             emailBody = emailBody + "Question " + i + ":\n" + question + "\n\n";
 
             String questionType = typeAry[i];
-            if (questionType.equals("free text")) {
-                emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nYour answer needed to include one of the following words or phrases:\n    ";
-                String[] correctAnswersAry = answerAry[i].split(":");
-                String correctAnswerString = null;
-                for (int line = 0 ; line < correctAnswersAry.length ; line++) {
-                    if (correctAnswerString == null) {
-                        correctAnswerString = correctAnswersAry[line];
-                    } else if (line == correctAnswersAry.length-1) {
-                        correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
-                    } else {
-                        correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
+            switch (questionType) {
+                case "free text":
+                    emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nYour answer needed to include one of the following words or phrases:\n    ";
+                    String[] correctAnswersAry = answerAry[i].split(":");
+                    String correctAnswerString = null;
+                    for (int line = 0; line < correctAnswersAry.length; line++) {
+                        if (correctAnswerString == null) {
+                            correctAnswerString = correctAnswersAry[line];
+                        } else if (line == correctAnswersAry.length - 1) {
+                            correctAnswerString = correctAnswerString + ", or " + correctAnswersAry[line];
+                        } else {
+                            correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
+                        }
                     }
-                }
-                emailBody = emailBody + correctAnswerString + "\n\n";
-
-            } else if (questionType.equals("single choice")) {
-                emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nCorrect Answer:\n    " + answerAry[i] + "\n\n";
-
-            } else if (questionType.equals("multiple choice")) {
-                emailBody = emailBody + "Your Answer(s) :\n    ";
-                String[] userAnswerAry = userInputAry[i].split(":");
-                String userAnswerString = "";
-                for (int line = 1 ; line < userAnswerAry.length ; line++) {
-                    if (userAnswerString.length() == 0) {
-                        userAnswerString = userAnswerAry[line];
-                    } else if (line == userAnswerAry.length-1) {
-                        userAnswerString = userAnswerString + ", and " + userAnswerAry[line];
-                    } else {
-                        userAnswerString = userAnswerString + ", " + userAnswerAry[line];
+                    emailBody = emailBody + correctAnswerString + "\n\n";
+                    break;
+                case "single choice":
+                    emailBody = emailBody + "Your Answer :\n    " + userInputAry[i] + "\nCorrect Answer:\n    " + answerAry[i] + "\n\n";
+                    break;
+                case "multiple choice":
+                    emailBody = emailBody + "Your Answer(s) :\n    ";
+                    String[] userAnswerAry = userInputAry[i].split(":");
+                    String userAnswerString = "";
+                    for (int line = 1; line < userAnswerAry.length; line++) {
+                        if (userAnswerString.length() == 0) {
+                            userAnswerString = userAnswerAry[line];
+                        } else if (line == userAnswerAry.length - 1) {
+                            userAnswerString = userAnswerString + ", and " + userAnswerAry[line];
+                        } else {
+                            userAnswerString = userAnswerString + ", " + userAnswerAry[line];
+                        }
                     }
-                }
-                emailBody = emailBody + userAnswerString + "\nCorrect Answer(s):\n    ";
-                String[] correctAnswersAry = answerAry[i].split(":");
-                String correctAnswerString = "";
-                for (int line = 1 ; line < correctAnswersAry.length ; line++) {
-                    if (correctAnswerString.length() == 0) {
-                        correctAnswerString = correctAnswersAry[line];
-                    } else if (line == correctAnswersAry.length-1) {
-                        correctAnswerString = correctAnswerString + ", and " + correctAnswersAry[line];
-                    } else {
-                        correctAnswerString = correctAnswerString + ", " + correctAnswersAry[line];
+                    emailBody = emailBody + userAnswerString + "\nCorrect Answer(s):\n    ";
+                    String[] correctAnswersAryM = answerAry[i].split(":");
+                    String correctAnswerStringM = null;
+                    for (int line = 1; line < correctAnswersAryM.length; line++) {
+                        if (correctAnswerStringM.length() == 0) {
+                            correctAnswerStringM = correctAnswersAryM[line];
+                        } else if (line == correctAnswersAryM.length - 1) {
+                            correctAnswerStringM = correctAnswerStringM + ", and " + correctAnswersAryM[line];
+                        } else {
+                            correctAnswerStringM = correctAnswerStringM + ", " + correctAnswersAryM[line];
+                        }
                     }
-                }
-                emailBody = emailBody + correctAnswerString + "\n\n";
+                    emailBody = emailBody + correctAnswerStringM + "\n\n";
+                    break;
             }
         }
 
         int finalScore = 0;
-        for (int i = 0 ; i < scoreAry.length ; i++) {
-            finalScore = finalScore + scoreAry[i];
+        for (int points : scoreAry) {
+            finalScore = finalScore + points;
         }
 
-        emailBody = emailBody + "Possible points = " + possibleScore + "\n" + "Your point total = " + finalScore + "\n\nThanks for playing!" ;
+        emailBody = emailBody + "Possible points = " + possibleScore + "\n" + "Your point total = " + finalScore + "\n\nThanks for playing!";
 
         String[] userEmailAry = {userEmail.toString()};
 
         Intent sendEmail = new Intent(Intent.ACTION_SENDTO);
         sendEmail.setData(Uri.parse("mailto:"));
-        sendEmail.putExtra(Intent.EXTRA_EMAIL,userEmailAry);
+        sendEmail.putExtra(Intent.EXTRA_EMAIL, userEmailAry);
         sendEmail.putExtra(Intent.EXTRA_SUBJECT, userName + "'s 'Think You Know :Biology Edition' Score Breakdown");
         sendEmail.putExtra(Intent.EXTRA_TEXT, emailBody);
         if (sendEmail.resolveActivity(getPackageManager()) != null) {
             startActivity(sendEmail);
         } else {
-            Toast.makeText(this,"Could not launch email app.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Could not launch email app.", Toast.LENGTH_SHORT).show();
         }
     }
 
