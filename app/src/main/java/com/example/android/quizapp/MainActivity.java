@@ -143,10 +143,7 @@ public class MainActivity extends AppCompatActivity {
             switch (phase) {
                 case "initial":
                     setContentView(R.layout.initial_layout);
-                    userNameViewID = findViewById(R.id.userName);
-                    userNameViewID.setText(userName);
-                    userEmailViewID = findViewById(R.id.userEmail);
-                    userEmailViewID.setText(userEmail);
+                    setUserInfo(null);
                     break;
                 case "quiz":
                     setContentView(R.layout.activity_main);
@@ -165,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             switch(phase) {
                 case "initial":
                     setContentView(R.layout.initial_layout_landscape);
-                    setUserInfo();
+                    setUserInfo(null);
                     break;
                 case "quiz":
                     setContentView(R.layout.activity_main_landscape);
@@ -185,13 +182,14 @@ public class MainActivity extends AppCompatActivity {
     /*Executed when a difficulty button is selected on the initial layout.
      * Receives the user input for name and email into global vars.
      */
-    private void setUserInfo() {
+    private void setUserInfo(View view) {
         userNameViewID = findViewById(R.id.userName);
         userName = userNameViewID.getText();
         userEmailViewID = findViewById(R.id.userEmail);
         userEmail = userEmailViewID.getText();
     }
 
+    //Ensures a username and email have been supplied before launching the quiz.
     public void completionCheck() {
         //Check to ensure both fields have been filled out.
         if (phase.equals("quiz") && userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
@@ -204,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     //Executed if the user clicks the easy button on the initial layout
     public void setEasyQuizParams(View view) {
         phase = "quiz";
-        setUserInfo();
+        setUserInfo(null);
         completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
@@ -217,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
     //Executed if the user clicks the medium button on the initial layout
     public void setMediumQuizParams(View view) {
         phase = "quiz";
-        setUserInfo();
+        setUserInfo(null);
         completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
@@ -230,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     //Executed if the user clicks the hard button on the initial layout
     public void setHardQuizParams(View view) {
         phase = "quiz";
-        setUserInfo();
+        setUserInfo(null);
         completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
