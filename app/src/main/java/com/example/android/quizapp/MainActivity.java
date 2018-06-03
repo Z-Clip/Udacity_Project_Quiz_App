@@ -31,36 +31,35 @@ import android.hardware.SensorManager;
 public class MainActivity extends AppCompatActivity {
 
     //Global variables
-    Editable userName;
-    Editable userEmail;
-    String difficulty;
-    String phase;
-    Boolean inputsReceived = false;
-    int question = 1;
-    int possibleScore;
+    public Editable userName;
+    public Editable userEmail;
+    public String difficulty;
+    public String phase;
+    public Boolean inputsReceived = false;
+    public int question = 1;
+    public int possibleScore;
     //Global Arrays
-    String[] questionAry;
-    String[] typeAry;
-    String[] optionAry;
-    String[] answerAry;
-    String[] userInputAry;  //Store in an array to provide a detailed breakdown in the email
-    int[] scoreAry;  //Store in an array to provide a detailed breakdown in the email
+    public String[] questionAry;
+    public String[] typeAry;
+    public String[] optionAry;
+    public String[] answerAry;
+    public String[] userInputAry;  //Store in an array to provide a detailed breakdown in the email
+    public int[] scoreAry;  //Store in an array to provide a detailed breakdown in the email
     //Globally defined object IDs
-    EditText userNameViewID;
-    EditText userEmailViewID;
-    EditText freeTextView;
-    TextView questionHeader;
-    TextView questionText;
-    RadioGroup singleChoiceView;
-    LinearLayout multipleChoiceView;
-    ImageView picture;
+    public EditText userNameViewID;
+    public EditText userEmailViewID;
+    public EditText freeTextView;
+    public TextView questionHeader;
+    public TextView questionText;
+    public RadioGroup singleChoiceView;
+    public LinearLayout multipleChoiceView;
+    public ImageView picture;
 
 
     // Save off key global variables on saveInstanceState
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.v("JKL Test", "Vars saved off successfully");
         outState.putCharSequence("userName" , userName);
         outState.putCharSequence("userEmail" , userEmail);
         outState.putString("phase" , phase);
@@ -141,40 +140,44 @@ public class MainActivity extends AppCompatActivity {
     public void changeLayoutBasedOnOrientation (Configuration newConfig) {
         //Portrait orientation
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            if (phase.equals("initial")) {
-                setContentView(R.layout.initial_layout);
-                userNameViewID = findViewById(R.id.userName);
-                userNameViewID.setText(userName);
-                userEmailViewID = findViewById(R.id.userEmail);
-                userEmailViewID.setText(userEmail);
-            } else if (phase.equals("quiz")) {
-                setContentView(R.layout.activity_main);
-                populateArrays();
-                defineObjects();
-                setQuestionDisplay();
-            } else if (phase.equals("final")) {
-                setContentView(R.layout.final_layout);
-                populateArrays();
-                compileAndDisplayResults();
+            switch (phase) {
+                case "initial":
+                    setContentView(R.layout.initial_layout);
+                    userNameViewID = findViewById(R.id.userName);
+                    userNameViewID.setText(userName);
+                    userEmailViewID = findViewById(R.id.userEmail);
+                    userEmailViewID.setText(userEmail);
+                    break;
+                case "quiz":
+                    setContentView(R.layout.activity_main);
+                    populateArrays();
+                    defineObjects();
+                    setQuestionDisplay();
+                    break;
+                case "final":
+                    setContentView(R.layout.final_layout);
+                    populateArrays();
+                    compileAndDisplayResults();
+                    break;
             }
-
             //Landscape orientation
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (phase.equals("initial")) {
-                setContentView(R.layout.initial_layout_landscape);
-                userNameViewID = findViewById(R.id.userName);
-                userNameViewID.setText(userName);
-                userEmailViewID = findViewById(R.id.userEmail);
-                userEmailViewID.setText(userEmail);
-            } else if (phase.equals("quiz")) {
-                setContentView(R.layout.activity_main_landscape);
-                populateArrays();
-                defineObjects();
-                setQuestionDisplay();
-            } else if (phase.equals("final")) {
-                setContentView(R.layout.final_layout_landscape);
-                populateArrays();
-                compileAndDisplayResults();
+            switch(phase) {
+                case "initial":
+                    setContentView(R.layout.initial_layout_landscape);
+                    setUserInfo();
+                    break;
+                case "quiz":
+                    setContentView(R.layout.activity_main_landscape);
+                    populateArrays();
+                    defineObjects();
+                    setQuestionDisplay();
+                    break;
+                case "final":
+                    setContentView(R.layout.final_layout_landscape);
+                    populateArrays();
+                    compileAndDisplayResults();
+                    break;
             }
         }
     }
@@ -187,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
         userName = userNameViewID.getText();
         userEmailViewID = findViewById(R.id.userEmail);
         userEmail = userEmailViewID.getText();
+    }
 
+    public void completionCheck() {
         //Check to ensure both fields have been filled out.
         if (phase.equals("quiz") && userNameViewID.length() != 0 && userEmailViewID.length() !=0) {
             inputsReceived = true;
@@ -200,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
     public void setEasyQuizParams(View view) {
         phase = "quiz";
         setUserInfo();
+        completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
@@ -212,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
     public void setMediumQuizParams(View view) {
         phase = "quiz";
         setUserInfo();
+        completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
@@ -224,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
     public void setHardQuizParams(View view) {
         phase = "quiz";
         setUserInfo();
+        completionCheck();
         //Prevent the layout from changing if inputsReceived does not evaluate to true
         if (!inputsReceived) {
             return;
