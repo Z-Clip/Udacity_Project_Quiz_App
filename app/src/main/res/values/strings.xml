@@ -12,4 +12,5 @@
     <string name="next_question">Next Question</string>
     <string name="question_placeholder">Placeholder</string>
     <string name="image_content_description">Image</string>
+    <string name="free_text">Free Text</string>
 </resources>
