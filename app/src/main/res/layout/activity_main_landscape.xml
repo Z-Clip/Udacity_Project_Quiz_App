@@ -7,19 +7,15 @@
     android:layout_height="match_parent"
     android:background="@color/lightPrimary">
 
+    <ImageView
+        style="@style/background_image"
+        tools:ignore="ContentDescription"/>
+
     <TextView
         android:id="@+id/header_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="8dp"
-        android:padding="4dp"
-        android:background="@drawable/dark_primary_gradient"
-        android:text="Question 1"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:textColor="@color/iconText"
-        android:gravity="center_horizontal"/>
+        style="@style/header"
+        android:text="@string/question_placeholder"
+        android:textSize="36sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -196,16 +192,6 @@
 
     <Button
         android:id="@+id/next_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:padding="4dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/dark_primary_gradient"
-        android:text="@string/next_question"
-        android:textSize="24sp"
-        android:textColor="@color/primaryText"
+        style="@style/next_button"
         android:onClick="nextQuestion"/>
-
 </RelativeLayout>
