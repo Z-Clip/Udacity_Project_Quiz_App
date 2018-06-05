@@ -7,7 +7,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        style="@style/background_image"/>
+        style="@style/background_image"
+        tools:ignore="ContentDescription"/>
 
     <TextView
         android:id="@+id/initial_header"
@@ -20,7 +21,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/initial_header"
         android:layout_margin="8dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:id="@+id/user_input_view_group"

@@ -7,7 +7,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        style="@style/background_image"/>
+        style="@style/background_image"
+        tools:ignore="ContentDescription"/>
 
     <TextView
         style="@style/header"
