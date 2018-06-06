@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public Boolean inputsReceived = false;
     public int question = 1;
     public int possibleScore;
+    public boolean increment = true;
     //Global Arrays
     public String[] questionAry;
     public String[] typeAry;
@@ -311,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
      * the question variable, and re-sets the display.
      */
     public void nextQuestion(View view) {
+        increment = true;
         checkAnswers();
         goneOptionViews();
         question = question + 1;
@@ -323,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void previousQuestion(View view) {
+        increment = false;
         if (question > 1) {
             question = question - 1;
             checkAnswers();
@@ -370,6 +373,8 @@ public class MainActivity extends AppCompatActivity {
                     if (answerExists) {
                         if (radioButtonArray[i].equals(userInputAry[question])) {
                             buttonText.setChecked(true);
+                        } else {
+                            buttonText.setChecked(false);  //Clear the selection
                         }
                     } else {
                         buttonText.setChecked(false);  //Clear the selection
@@ -386,8 +391,10 @@ public class MainActivity extends AppCompatActivity {
                     CheckBox buttonText = findViewById(viewID);
                     buttonText.setText(checkBoxArray[i]);
                     if (answerExists) {
-                        if (checkBoxArray[i].equals(userInputAry[question])) {
+                        if (userInputAry[question].contains(":" + checkBoxArray[i] + ":")) {
                             buttonText.setChecked(true);
+                        } else {
+                            buttonText.setChecked(false);
                         }
                     } else {
                         buttonText.setChecked(false);  //Clear the check mark
@@ -408,6 +415,9 @@ public class MainActivity extends AppCompatActivity {
         String questionType = typeAry[question];
         switch (questionType) {
             case "free text":
+                if (increment) {
+                    userInputAry[question] = null;
+                }
                 String text = freeTextView.getText().toString().toUpperCase();
                 userInputAry[question] = text;
                 String[] correctAnswerAry = answerAry[question].split(":");
@@ -418,6 +428,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case "single choice":
+                if (increment) {
+                    userInputAry[question] = null;
+                }
                 for (int i = 1; i <= 4; i++) {
                     //Get the view ID corresponding with i
                     int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
@@ -433,6 +446,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case "multiple choice":
+                if (increment) {
+                    userInputAry[question] = null;
+                }
                 String[] correctAnswerAryM = answerAry[question].split(":");
                 /* possibleScore already has a count of 1 associated with this question, but we need to add count
                  * for the additional possible correct answers. 0 key does not correspond with an answer.
