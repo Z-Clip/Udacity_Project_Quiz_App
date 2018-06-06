@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Calculates the possible score for the quiz. populateArrays must be called first.
     public void calculatePossibleScore () {
+        possibleScore = 0;
         for (int i = 1 ; i < typeAry.length ; i++) {
             String type = typeAry[i];
             switch (type) {
@@ -273,7 +274,8 @@ public class MainActivity extends AppCompatActivity {
                     possibleScore = possibleScore + 1;
                     break;
                 case "multiple choice":
-                    int max = answerAry.length - 2;
+                    String[] array = answerAry[i].split(":");
+                    int max = array.length;
                     for (int x = 1 ; x < max ; x++) {
                         possibleScore = possibleScore + 1;
                     }
