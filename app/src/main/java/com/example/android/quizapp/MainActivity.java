@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public String phase = "initial";
     public Boolean inputsReceived = false;
     public int question = 1;
-    public int possibleScore;
+    public int possibleScore = 0;
     public boolean increment = true;
     //Global Arrays
     public String[] questionAry;
@@ -261,6 +261,26 @@ public class MainActivity extends AppCompatActivity {
         buildQuestionnaire();
     }
 
+    public void calculatePossibleScore () {
+        for (int i = 1 ; i < typeAry.length ; i++) {
+            String type = typeAry[i];
+            switch (type) {
+                case "free text":
+                    possibleScore = possibleScore + 1;
+                    break;
+                case "single choice":
+                    possibleScore = possibleScore + 1;
+                    break;
+                case "multiple choice":
+                    int max = answerAry.length - 2;
+                    for (int x = 1 ; x < max ; x++) {
+                        possibleScore = possibleScore + 1;
+                    }
+                    break;
+            }
+        }
+    }
+
     /* This method executes all the methods necessary to transition from the initial layout to
      * the activity_main layout. It builds variables for the arrays, changes the layout, defines
      * global variables associated with the view objects, and sets the display.
@@ -271,9 +291,9 @@ public class MainActivity extends AppCompatActivity {
         /* The following arrays are not defined in populateArrays because we don't want their values
          * reverting on a state change.
          */
-        possibleScore = (questionAry.length - 1);  //The possible score is equal to the number of questions (0 key does not correspond with a question)
         userInputAry = new String[questionAry.length];
         scoreAry = new int[questionAry.length];
+        calculatePossibleScore();
         //Change the layout to activity_main
         if (getResources().getConfiguration().orientation == 1) {
             setContentView(R.layout.activity_main);
@@ -439,14 +459,8 @@ public class MainActivity extends AppCompatActivity {
             case "multiple choice":
                 if (increment) {
                     userInputAry[question] = null;
+                    scoreAry[question] = 0;
                 }
-                String[] correctAnswerAryM = answerAry[question].split(":");
-                /* possibleScore already has a count of 1 associated with this question, but we need to add count
-                 * for the additional possible correct answers. 0 key does not correspond with an answer.
-                 * correctAnswerAryM.length - 2 in the number of possible additional correct answers we need
-                 * to add to possibleScore.
-                 */
-                possibleScore = possibleScore + (correctAnswerAryM.length - 2);
                 int scoreCount = 0;
                 String answerString = ":" + answerAry[question] + ":";
                 for (int i = 1; i <= 4; i++) {
