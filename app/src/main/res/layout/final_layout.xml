@@ -4,10 +4,12 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--Background -->
     <ImageView
         style="@style/background_image"
         tools:ignore="ContentDescription"/>
 
+    <!-- Header -->
     <TextView
         android:id="@+id/final_header"
         android:layout_width="match_parent"
@@ -21,6 +23,7 @@
         android:textStyle="bold"
         android:text="@string/final_header"/>
 
+    <!-- Score Summary -->
     <TextView
         android:id="@+id/score_summary_text_view"
         android:layout_width="match_parent"
@@ -38,6 +41,7 @@
         android:textStyle="bold"
         android:text="@string/question_placeholder"/>
 
+    <!-- % Correct -->
     <TextView
         android:id="@+id/percent_correct_text_view"
         android:layout_width="match_parent"
@@ -52,13 +56,15 @@
         android:textStyle="bold"
         android:text="@string/question_placeholder"/>
 
+    <!-- Email Button -->
     <Button
         android:id="@+id/email_me"
+        android:layout_above="@id/try_again"
         style="@style/button"
         android:text="@string/email_me"
-        android:layout_above="@id/try_again"
         android:onClick="emailUserScoreBreakdown"/>
 
+    <!-- Try Again Button -->
     <Button
         android:id="@+id/try_again"
         style="@style/button"
