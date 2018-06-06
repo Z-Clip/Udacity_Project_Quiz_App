@@ -1,5 +1,6 @@
 /* This code is the intellectual property of Jon Leverkuhn, and all content is original unless
  * otherwise specified. All images are royalty-free.
+ * 6/6/18 - Removed editTextListener call from the buildQuestionnaire method.
  */
 
 package com.example.android.quizapp;
