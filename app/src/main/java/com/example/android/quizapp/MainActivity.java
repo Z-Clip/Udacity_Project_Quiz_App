@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
             possibleScore = savedInstanceState.getInt("possibleScore");
             userInputAry = savedInstanceState.getStringArray("userInputAry");
             scoreAry = savedInstanceState.getIntArray("scoreAry");
+            if (phase.equals("initial")) {
+                displayUserInfo();
+            }
         }
     }
 
@@ -111,46 +114,29 @@ public class MainActivity extends AppCompatActivity {
      * it's the best I've got right now.
      */
     public void editTextListeners() {
-        switch (phase) {
-            case "initial":
-                userNameViewID = findViewById(R.id.userName);
-                userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            userName = userNameViewID.getText();
-                            hideSoftKeyboard(MainActivity.this);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                userEmailViewID = findViewById(R.id.userEmail);
-                userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            userEmail = userEmailViewID.getText();
-                            hideSoftKeyboard(MainActivity.this);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                break;
-            case "game":
-                freeTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            userName = userNameViewID.getText();
-                            hideSoftKeyboard(MainActivity.this);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                break;
-        }
+        userNameViewID = findViewById(R.id.userName);
+        userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    userName = userNameViewID.getText();
+                    hideSoftKeyboard(MainActivity.this);
+                    return true;
+                }
+                return false;
+            }
+        });
+        userEmailViewID = findViewById(R.id.userEmail);
+        userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    userEmail = userEmailViewID.getText();
+                    hideSoftKeyboard(MainActivity.this);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     //If a configuration change is detected, execute changeLayoutBasedOnOrientation
@@ -170,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             switch (phase) {
                 case "initial":
                     setContentView(R.layout.initial_layout);
-                    setUserInfo(null);
+                    displayUserInfo();
                     break;
                 case "quiz":
                     setContentView(R.layout.activity_main);
@@ -189,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             switch (phase) {
                 case "initial":
                     setContentView(R.layout.initial_layout_landscape);
-                    setUserInfo(null);
+                    displayUserInfo();
                     break;
                 case "quiz":
                     setContentView(R.layout.activity_main_landscape);
@@ -206,8 +192,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*Executed when a difficulty button is selected on the initial layout.
-     * Receives the user input for name and email into global vars.
+    //Sets the views in the initial layout.
+    public void displayUserInfo() {
+        userNameViewID = findViewById(R.id.userName);
+        userNameViewID.setText(userName);
+        userEmailViewID = findViewById(R.id.userEmail);
+        userEmailViewID.setText(userEmail);
+    }
+
+    /*Executed when an onClick method is triggered within one of the edit text views.
      */
     public void setUserInfo(View view) {
         userNameViewID = findViewById(R.id.userName);
