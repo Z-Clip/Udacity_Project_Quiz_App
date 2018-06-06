@@ -1,5 +1,6 @@
 package com.example.android.quizapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public Editable userName;
     public Editable userEmail;
     public String difficulty;
-    public String phase;
+    public String phase = "initial";
     public Boolean inputsReceived = false;
     public int question = 1;
     public int possibleScore;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial_layout);
         editTextListeners();  //Configure listeners for the EditText objects on the first layout
-        phase = "initial";
         rebuildState(savedInstanceState);  //Rebuild vars on a state change
     }
 
@@ -86,6 +87,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /*Copied from Stack Overflow thread https://stackoverflow.com/questions/4165414/how-to-hide-soft-keyboard-on-android-after-clicking-outside-edittext
+     *Credit: Navneeth G
+     * Allows the soft keyboard to be hidden.
+     */
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
     /* In the very first layout, there are two EditText views for userName and userEmail. If the
      * configuration changes before you've clicked a difficulty button, the user input is lost
      * because the EditText views' values have not been saved off to variables yet. These listeners
@@ -93,27 +106,46 @@ public class MainActivity extends AppCompatActivity {
      * it's the best I've got right now.
      */
     public void editTextListeners() {
-        userNameViewID = findViewById(R.id.userName);
-        userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    userName = userNameViewID.getText();
-                    return true;
-                }
-                return false;
-            }
-        });
-        userEmailViewID = findViewById(R.id.userEmail);
-        userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    userEmail = userEmailViewID.getText();
-                    return true;
-                }
-                return false;
-            }
-        });
+        switch (phase) {
+            case "initial":
+                userNameViewID = findViewById(R.id.userName);
+                userNameViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            userName = userNameViewID.getText();
+                            hideSoftKeyboard(MainActivity.this);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                userEmailViewID = findViewById(R.id.userEmail);
+                userEmailViewID.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            userEmail = userEmailViewID.getText();
+                            hideSoftKeyboard(MainActivity.this);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                break;
+            case "game":
+                freeTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            userName = userNameViewID.getText();
+                            hideSoftKeyboard(MainActivity.this);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                break;
+        }
     }
 
     //If a configuration change is detected, execute changeLayoutBasedOnOrientation
@@ -250,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
         //Define global objects
         defineObjects();
         setQuestionDisplay();
+        editTextListeners();
     }
 
     // This method sets global array variables based on the string arrays stored in the array resource
@@ -289,12 +322,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void previousQuestion(View view) {
+        if (question > 1) {
+            question = question - 1;
+            checkAnswers();
+            goneOptionViews();
+            setQuestionDisplay();
+        }
+    }
+
     /* This method assesses the questionAry, finds the values that correspond with the current
      * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
         questionHeader.setText(String.valueOf("Question " + question));
         questionText.setText(String.valueOf(questionAry[question]));
+        Boolean answerExists = false;
+        if (userInputAry[question] != null) {
+            answerExists = true;
+        }
 
         int imageID = getResources().getIdentifier(difficulty + "_" + question, "drawable", getPackageName());
         if (imageID >= 0) {
@@ -306,6 +352,11 @@ public class MainActivity extends AppCompatActivity {
         switch (questionType) {
             case "free text":
                 freeTextView.setVisibility(View.VISIBLE);  //Make visible
+                if (answerExists) {
+                    freeTextView.setText(String.valueOf(userInputAry[question]));
+                } else {
+                    freeTextView.setText("");  //Clear the text
+                }
                 break;
             case "single choice":
                 singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
@@ -316,6 +367,13 @@ public class MainActivity extends AppCompatActivity {
                     int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
                     RadioButton buttonText = findViewById(viewID);
                     buttonText.setText(radioButtonArray[i]);
+                    if (answerExists) {
+                        if (radioButtonArray[i].equals(userInputAry[question])) {
+                            buttonText.setChecked(true);
+                        }
+                    } else {
+                        buttonText.setChecked(false);  //Clear the selection
+                    }
                 }
                 break;
             case "multiple choice":
@@ -327,6 +385,13 @@ public class MainActivity extends AppCompatActivity {
                     int viewID = getResources().getIdentifier("checkbox_option_" + i, "id", getPackageName());
                     CheckBox buttonText = findViewById(viewID);
                     buttonText.setText(checkBoxArray[i]);
+                    if (answerExists) {
+                        if (checkBoxArray[i].equals(userInputAry[question])) {
+                            buttonText.setChecked(true);
+                        }
+                    } else {
+                        buttonText.setChecked(false);  //Clear the check mark
+                    }
                 }
                 break;
         }
@@ -351,7 +416,6 @@ public class MainActivity extends AppCompatActivity {
                         scoreAry[question] = 1;
                     }
                 }
-                freeTextView.setText("");  //Clear the text
                 break;
             case "single choice":
                 for (int i = 1; i <= 4; i++) {
@@ -364,7 +428,6 @@ public class MainActivity extends AppCompatActivity {
                         if (textS.equals(answerAry[question])) {
                             scoreAry[question] = 1;
                         }
-                        buttonView.setChecked(false);  //Clear the selection
                         break;
                     }
                 }
@@ -391,7 +454,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             scoreCount = scoreCount - 1;
                         }
-                        checkBoxObject.setChecked(false);  //Clear the check mark
                     }
                     if (scoreCount <= 0) {
                         scoreAry[question] = 0;

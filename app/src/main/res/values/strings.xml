@@ -10,6 +10,7 @@
     <string name="email_me">Email Me My Score Breakdown</string>
     <string name="try_again">Try Again</string>
     <string name="next_question">Next Question</string>
+    <string name="previous_question">Previous Question</string>
     <string name="question_placeholder">Placeholder</string>
     <string name="image_content_description">Image</string>
     <string name="free_text">Free Text</string>

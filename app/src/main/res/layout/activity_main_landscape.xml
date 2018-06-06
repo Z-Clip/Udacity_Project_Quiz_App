@@ -36,7 +36,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/next_button"
+        android:layout_above="@id/buttons"
         android:layout_below="@id/question_text"
         android:orientation="horizontal"
         android:layout_gravity="center_vertical">
@@ -50,7 +50,8 @@
             android:layout_weight="1"
             android:scaleType="centerInside"
             android:visibility="gone"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            android:background="@color/whiteTransparent"/>
 
         <!-- User Input Views -->
         <LinearLayout
@@ -129,16 +130,32 @@
                 android:inputType="text"
                 android:textAlignment="viewStart"
                 android:textSize="18sp"
+                android:imeOptions="actionDone"
                 android:visibility="gone"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Next Button -->
-    <Button
-        android:id="@+id/next_button"
-        style="@style/next_button"
-        android:onClick="nextQuestion" />
+    <!-- Next and Previous Buttons -->
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/previous_button"
+            style="@style/next_and_previous_button"
+            android:text="@string/previous_question"
+            android:onClick="previousQuestion" />
+
+        <Button
+            android:id="@+id/next_button"
+            style="@style/next_and_previous_button"
+            android:onClick="nextQuestion" />
+
+    </LinearLayout>
 
 </RelativeLayout>
