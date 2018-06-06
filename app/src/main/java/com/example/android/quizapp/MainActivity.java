@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
         buildQuestionnaire();
     }
 
+    //Calculates the possible score for the quiz. populateArrays must be called first.
     public void calculatePossibleScore () {
         for (int i = 1 ; i < typeAry.length ; i++) {
             String type = typeAry[i];
