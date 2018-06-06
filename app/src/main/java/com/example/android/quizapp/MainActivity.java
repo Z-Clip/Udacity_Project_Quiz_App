@@ -394,7 +394,8 @@ public class MainActivity extends AppCompatActivity {
                     CheckBox buttonText = findViewById(viewID);
                     buttonText.setText(checkBoxArray[i]);
                     if (answerExists) {
-                        if (userInputAry[question].contains(":" + checkBoxArray[i] + ":")) {
+                        String userInput = ":" + userInputAry[question] +":";
+                        if (userInput.contains(":" + checkBoxArray[i] + ":")) {
                             buttonText.setChecked(true);
                         } else {
                             buttonText.setChecked(false);
@@ -480,7 +481,6 @@ public class MainActivity extends AppCompatActivity {
                         scoreAry[question] = scoreCount;
                     }
                 }
-                userInputAry[question] = userInputAry[question] + ":";
                 break;
         }
     }
