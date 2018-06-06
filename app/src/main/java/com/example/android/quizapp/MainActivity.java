@@ -1,3 +1,7 @@
+/* This code is the intellectual property of Jon Leverkuhn and all content is original unless
+ * otherwise specified. All images are royalty-free.
+ */
+
 package com.example.android.quizapp;
 
 import android.app.Activity;
