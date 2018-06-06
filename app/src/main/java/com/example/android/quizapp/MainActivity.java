@@ -372,14 +372,12 @@ public class MainActivity extends AppCompatActivity {
                     int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
                     RadioButton buttonText = findViewById(viewID);
                     buttonText.setText(radioButtonArray[i]);
-                    if (answerExists) {
-                        if (String.valueOf(radioButtonArray[i]).equals(userInputAry[question])) {
-                            buttonText.setChecked(true);
-                        } else {
-                            buttonText.setChecked(false);  //Clear the selection
-                        }
-                    } else {
-                        buttonText.setChecked(false);  //Clear the selection
+                    if (radioButtonArray[i].equals(userInputAry[question])) {
+                        buttonText.setChecked(true);
+                    }
+                    if (!answerExists) {
+                        RadioGroup radioGroup = findViewById(R.id.radio_buttons);
+                        radioGroup.clearCheck();
                     }
                 }
                 break;
@@ -397,11 +395,7 @@ public class MainActivity extends AppCompatActivity {
                         String userInput = ":" + userInputAry[question] +":";
                         if (userInput.contains(":" + checkBoxArray[i] + ":")) {
                             buttonText.setChecked(true);
-                        } else {
-                            buttonText.setChecked(false);
                         }
-                    } else {
-                        buttonText.setChecked(false);  //Clear the check mark
                     }
                 }
                 break;
@@ -419,9 +413,6 @@ public class MainActivity extends AppCompatActivity {
         String questionType = typeAry[question];
         switch (questionType) {
             case "free text":
-                if (increment) {
-                    userInputAry[question] = null;
-                }
                 String text = freeTextView.getText().toString().toUpperCase();
                 userInputAry[question] = text;
                 String[] correctAnswerAry = answerAry[question].split(":");
@@ -432,9 +423,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case "single choice":
-                if (increment) {
-                    userInputAry[question] = null;
-                }
                 for (int i = 1; i <= 4; i++) {
                     //Get the view ID corresponding with i
                     int viewID = getResources().getIdentifier("radio_option_" + i, "id", getPackageName());
@@ -445,7 +433,6 @@ public class MainActivity extends AppCompatActivity {
                         if (textS.equals(answerAry[question])) {
                             scoreAry[question] = 1;
                         }
-                        break;
                     }
                 }
                 break;
@@ -474,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             scoreCount = scoreCount - 1;
                         }
+                        checkBoxObject.setChecked(false);
                     }
                     if (scoreCount <= 0) {
                         scoreAry[question] = 0;
