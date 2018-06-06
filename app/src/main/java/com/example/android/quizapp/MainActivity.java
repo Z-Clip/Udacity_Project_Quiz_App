@@ -1,4 +1,4 @@
-/* This code is the intellectual property of Jon Leverkuhn and all content is original unless
+/* This code is the intellectual property of Jon Leverkuhn, and all content is original unless
  * otherwise specified. All images are royalty-free.
  */
 
