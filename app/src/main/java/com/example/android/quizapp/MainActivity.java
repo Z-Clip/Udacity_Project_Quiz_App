@@ -326,10 +326,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void previousQuestion(View view) {
         increment = false;
-        if (question > 1) {
-            question = question - 1;
+        if (question != 1) {
             checkAnswers();
             goneOptionViews();
+            question = question - 1;
             setQuestionDisplay();
         }
     }
@@ -340,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
     public void setQuestionDisplay() {
         questionHeader.setText(String.valueOf("Question " + question));
         questionText.setText(String.valueOf(questionAry[question]));
+
         Boolean answerExists = false;
         if (userInputAry[question] != null) {
             answerExists = true;
@@ -361,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
                     freeTextView.setText("");  //Clear the text
                 }
                 break;
+
             case "single choice":
                 singleChoiceView.setVisibility(View.VISIBLE);  //Make visible
                 //Set the text for the radio buttons
@@ -371,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     RadioButton buttonText = findViewById(viewID);
                     buttonText.setText(radioButtonArray[i]);
                     if (answerExists) {
-                        if (radioButtonArray[i].equals(userInputAry[question])) {
+                        if (String.valueOf(radioButtonArray[i]).equals(userInputAry[question])) {
                             buttonText.setChecked(true);
                         } else {
                             buttonText.setChecked(false);  //Clear the selection
@@ -381,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
+
             case "multiple choice":
                 multipleChoiceView.setVisibility(View.VISIBLE);
                 //Set the text for the checkboxes
@@ -477,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
                         scoreAry[question] = scoreCount;
                     }
                 }
+                userInputAry[question] = userInputAry[question] + ":";
                 break;
         }
     }
