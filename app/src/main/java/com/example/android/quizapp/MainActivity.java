@@ -303,7 +303,6 @@ public class MainActivity extends AppCompatActivity {
         //Define global objects
         defineObjects();
         setQuestionDisplay();
-        editTextListeners();
     }
 
     // This method sets global array variables based on the string arrays stored in the array resource
