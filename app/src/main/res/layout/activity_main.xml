@@ -20,7 +20,6 @@
 
     <!-- Question Photo -->
     <ImageView
-        android:visibility="gone"
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,6 +27,7 @@
         android:layout_below="@id/header_text_view"
         android:layout_margin="8dp"
         android:scaleType="centerInside"
+        android:visibility="gone"
         tools:ignore="ContentDescription" />
 
     <!-- Question Text -->
@@ -54,17 +54,13 @@
         android:orientation="vertical">
 
         <!-- Multiple Choice Multi-Select -->
-        <ScrollView
-            android:id="@+id/checkboxes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
             <LinearLayout
+                android:id="@+id/checkboxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <CheckBox
                     android:id="@+id/checkbox_option_1"
@@ -84,55 +80,48 @@
 
             </LinearLayout>
 
-        </ScrollView>
-
         <!-- Multiple Choice Single Select -->
-        <ScrollView
-            android:visibility="gone"
+        <RadioGroup
             android:id="@+id/radio_buttons"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/dark_primary_gradient"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/dark_primary_gradient"
-                android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/radio_option_1"
+                style="@style/radio_button" />
 
-                <RadioButton
-                    android:id="@+id/radio_option_1"
-                    style="@style/radio_button"/>
+            <RadioButton
+                android:id="@+id/radio_option_2"
+                style="@style/radio_button" />
 
-                <RadioButton
-                    android:id="@+id/radio_option_2"
-                    style="@style/radio_button"/>
+            <RadioButton
+                android:id="@+id/radio_option_3"
+                style="@style/radio_button" />
 
-                <RadioButton
-                    android:id="@+id/radio_option_3"
-                    style="@style/radio_button"/>
+            <RadioButton
+                android:id="@+id/radio_option_4"
+                style="@style/radio_button" />
 
-                <RadioButton
-                    android:id="@+id/radio_option_4"
-                    style="@style/radio_button"/>
-
-            </RadioGroup>
-
-        </ScrollView>
+        </RadioGroup>
 
         <!-- Free Text -->
         <EditText
-            android:visibility="gone"
             android:id="@+id/free_text_answer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            android:background="@color/whiteTransparent"
+            android:padding="6dp"
+            android:background="@drawable/free_text_background"
             android:gravity="start"
+            android:hint="@string/free_text"
             android:inputType="text"
             android:textAlignment="viewStart"
             android:textSize="18sp"
-            android:hint="@string/free_text"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

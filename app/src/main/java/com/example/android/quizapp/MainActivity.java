@@ -517,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
                     String[] correctAnswersAryM = answerAry[i].split(":");
                     String correctAnswerStringM = null;
                     for (int line = 1; line < correctAnswersAryM.length; line++) {
-                        if (correctAnswerStringM.length() == 0) {
+                        if (correctAnswerStringM == null) {
                             correctAnswerStringM = correctAnswersAryM[line];
                         } else if (line == correctAnswersAryM.length - 1) {
                             correctAnswerStringM = correctAnswerStringM + ", and " + correctAnswersAryM[line];

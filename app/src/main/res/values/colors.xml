@@ -9,10 +9,10 @@
     <color name="secondaryText">#757575</color>
     <color name="divider">#BDBDBD</color>
 
-    <color name="colorPrimaryTransparent">#CC009688</color>
-    <color name="colorPrimaryDarkTransparent">#CC00796B</color>
-    <color name="colorAccentTransparent">#CC4CAF50</color>
-    <color name="darkDarkTransparent">#CC212121</color>
-    <color name="whiteTransparent">#CCFFFFFF</color>
+    <color name="colorPrimaryTransparent">#E6009688</color>
+    <color name="colorPrimaryDarkTransparent">#E600796B</color>
+    <color name="colorAccentTransparent">#E64CAF50</color>
+    <color name="darkDarkTransparent">#E6212121</color>
+    <color name="whiteTransparent">#E6FFFFFF</color>
 
 </resources>
