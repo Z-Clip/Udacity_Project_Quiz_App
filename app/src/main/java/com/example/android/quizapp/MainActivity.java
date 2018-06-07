@@ -2,6 +2,7 @@
  * otherwise specified. All images are royalty-free.
  * 6/6/18 - Removed editTextListener call from the buildQuestionnaire method.
  * 6/7/18 - Added a "final score" toast to the else branch of the nextQuestion method per my reviewer.
+ * 6/7/18 - Adjust display to let the user know what question they're on... and when they've reached the end of the quiz.
  */
 
 package com.example.android.quizapp;
