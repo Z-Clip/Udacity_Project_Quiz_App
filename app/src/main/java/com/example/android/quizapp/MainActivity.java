@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public int question = 1;
     public int possibleScore = 0;
     public boolean increment = true;
+    public int questionCount = 0;
     //Global Arrays
     public String[] questionAry;
     public String[] typeAry;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public RadioGroup singleChoiceView;
     public LinearLayout multipleChoiceView;
     public ImageView picture;
+    public Button nextButton;
 
 
     // Save off key global variables on saveInstanceState
@@ -311,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
     public void populateArrays() {
         //Grab the needed string arrays from the arrays resource
         questionAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_questions", "array", getPackageName()));
+        questionCount = questionAry.length - 1;
         typeAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_types", "array", getPackageName()));
         optionAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_options", "array", getPackageName()));
         answerAry = getResources().getStringArray(getResources().getIdentifier(difficulty + "_answers", "array", getPackageName()));
@@ -327,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
         singleChoiceView = findViewById(R.id.radio_buttons);
         multipleChoiceView = findViewById(R.id.checkboxes);
         picture = findViewById(R.id.image);
+        nextButton = findViewById(R.id.next_button);
     }
 
     /* Called when the user selects the "next question" button. "GONE-s" the dynamic views, increments
@@ -337,8 +342,12 @@ public class MainActivity extends AppCompatActivity {
         checkAnswers();
         goneOptionViews();
         question = question + 1;
-        if (question < questionAry.length) {
+        if (question < questionCount) {
             setQuestionDisplay();
+        } else if (question == questionCount) {
+            setQuestionDisplay();
+            String submit = "Submit Quiz";
+            nextButton.setText(submit);
         } else {
             phase = "final";
             compileAndDisplayResults();
@@ -349,11 +358,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void previousQuestion(View view) {
         increment = false;
+        String next = "Next Question";
         if (question != 1) {
             checkAnswers();
             goneOptionViews();
             question = question - 1;
             setQuestionDisplay();
+            nextButton.setText(next);
         }
     }
 
@@ -361,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
      * question, and updates the views in the activity_main layout accordingly.
      */
     public void setQuestionDisplay() {
-        questionHeader.setText(String.valueOf("Question " + question));
+        questionHeader.setText(String.valueOf("Question " + question + " / " + questionCount));
         questionText.setText(String.valueOf(questionAry[question]));
 
         Boolean answerExists = false;
