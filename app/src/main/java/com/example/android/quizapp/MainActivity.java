@@ -1,6 +1,7 @@
 /* This code is the intellectual property of Jon Leverkuhn, and all content is original unless
  * otherwise specified. All images are royalty-free.
  * 6/6/18 - Removed editTextListener call from the buildQuestionnaire method.
+ * 6/7/18 - Added a "final score" toast to the else branch of the nextQuestion method per my reviewer.
  */
 
 package com.example.android.quizapp;
