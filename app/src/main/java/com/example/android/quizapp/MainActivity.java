@@ -260,9 +260,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Calculates the possible score for the quiz. populateArrays must be called first.
-    public void calculatePossibleScore () {
+    public void calculatePossibleScore() {
         possibleScore = 0;
-        for (int i = 1 ; i < typeAry.length ; i++) {
+        for (int i = 1; i < typeAry.length; i++) {
             String type = typeAry[i];
             switch (type) {
                 case "free text":
@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 case "multiple choice":
                     String[] array = answerAry[i].split(":");
                     int max = array.length;
-                    for (int x = 1 ; x < max ; x++) {
+                    for (int x = 1; x < max; x++) {
                         possibleScore = possibleScore + 1;
                     }
                     break;
@@ -341,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             phase = "final";
             compileAndDisplayResults();
+            int finalScore = calculateFinalScore();
+            Toast.makeText(this, "Your scored " + finalScore + " out of " + possibleScore + " possible points.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -412,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                     CheckBox buttonText = findViewById(viewID);
                     buttonText.setText(checkBoxArray[i]);
                     if (answerExists) {
-                        String userInput = ":" + userInputAry[question] +":";
+                        String userInput = ":" + userInputAry[question] + ":";
                         if (userInput.contains(":" + checkBoxArray[i] + ":")) {
                             buttonText.setChecked(true);
                         }
@@ -436,7 +438,7 @@ public class MainActivity extends AppCompatActivity {
                 String text = freeTextView.getText().toString().toUpperCase();
                 userInputAry[question] = text;
                 String[] correctAnswerAry = answerAry[question].split(":");
-                for (String answer: correctAnswerAry) {
+                for (String answer : correctAnswerAry) {
                     if (text.contains(answer)) {
                         scoreAry[question] = 1;
                     }
@@ -498,12 +500,17 @@ public class MainActivity extends AppCompatActivity {
         multipleChoiceView.setVisibility(View.GONE);
     }
 
-    // This method compiles the user's score and displays the results.
-    public void compileAndDisplayResults() {
+    public int calculateFinalScore() {
         int finalScore = 0;
         for (int point : scoreAry) {
             finalScore = finalScore + point;
         }
+        return finalScore;
+    }
+
+    // This method compiles the user's score and displays the results.
+    public void compileAndDisplayResults() {
+        int finalScore = calculateFinalScore();
 
         String summaryInfoText = "Your Name:  " + userName;
         summaryInfoText = summaryInfoText + "\n\n" + "Your Email:  " + userEmail;
